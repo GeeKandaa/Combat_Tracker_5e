@@ -12,7 +12,7 @@ namespace Combat_Tracker_5e
 {
     public partial class Form1 : Form
     {
-        Party party;
+        Manager manager;
         public Form1()
         {
             InitializeComponent();
@@ -20,14 +20,13 @@ namespace Combat_Tracker_5e
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            party = new();
-
+            manager=Manager.Instance;
+            manager.register_main(this);
         }
 
         private void NewPartyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form2 f2 = new();
-            f2.Show();
+            manager.New();
         }
     }
 }
