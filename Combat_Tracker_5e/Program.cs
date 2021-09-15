@@ -8,6 +8,7 @@ namespace Combat_Tracker_5e
 {
     static class Program
     {
+        static public Manager manager = Manager.Instance;
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>

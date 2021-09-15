@@ -11,8 +11,7 @@ using System.Windows.Forms;
 namespace Combat_Tracker_5e
 {
     public partial class Form1 : Form
-    {
-        Manager manager;
+    {   
         public Form1()
         {
             InitializeComponent();
@@ -20,13 +19,12 @@ namespace Combat_Tracker_5e
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            manager=Manager.Instance;
-            manager.register_main(this);
+           Manager.Instance.register_main(this);
         }
 
         private void NewPartyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            manager.New();
+            Manager.Instance.New();
         }
     }
 }
