@@ -11,6 +11,7 @@ namespace Combat_Tracker_5e
     {
         TreeNode PlayerNode = new();
         TreeNode NpcNode = new();
+        TreeNode ActiveNode;
         public Character_Tree() 
         {
             PlayerNode.Text = "Players";
@@ -20,7 +21,14 @@ namespace Combat_Tracker_5e
 
             
         }
-
+        public void Populate_Players()
+        {
+            PlayerNode.Nodes.Clear();
+            foreach (string name in Manager.Instance.Party_List())
+            {
+                PlayerNode.Nodes.Add(name);
+            }
+        }
         protected override void OnDrawNode(DrawTreeNodeEventArgs e)
         {
             base.OnDrawNode(e);
@@ -32,5 +40,10 @@ namespace Combat_Tracker_5e
             this.Nodes.Clear();
         }
 
+        protected override void OnBeforeCheck(TreeViewCancelEventArgs e)
+        {
+            base.OnBeforeCheck(e);
+            if (!(e.Node==ActiveNode)) e.Cancel = true;
+        }
     }
 }

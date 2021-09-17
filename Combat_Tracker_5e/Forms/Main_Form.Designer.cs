@@ -32,12 +32,11 @@ namespace Combat_Tracker_5e
             System.Windows.Forms.TextBox Heading_PlayerList;
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newPartyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadPartyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.savePartyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuNewParty = new Combat_Tracker_5e.Controls.Managed_MenuItem();
+            this.MenuLoad = new Combat_Tracker_5e.Controls.Managed_MenuItem();
+            this.MenuSave = new Combat_Tracker_5e.Controls.Managed_MenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.MenuQuit = new Combat_Tracker_5e.Controls.Managed_MenuItem();
             this.character_Tree1 = new Combat_Tracker_5e.Character_Tree();
             Heading_PlayerList = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
@@ -69,75 +68,70 @@ namespace Combat_Tracker_5e
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newPartyToolStripMenuItem,
-            this.loadPartyToolStripMenuItem,
-            this.savePartyToolStripMenuItem,
+            this.menuNewParty,
+            this.MenuLoad,
+            this.MenuSave,
             this.toolStripMenuItem1,
-            this.quitToolStripMenuItem});
+            this.MenuQuit});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // newPartyToolStripMenuItem
+            // menuNewParty
             // 
-            this.newPartyToolStripMenuItem.Name = "newPartyToolStripMenuItem";
-            this.newPartyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newPartyToolStripMenuItem.Size = new System.Drawing.Size(257, 34);
-            this.newPartyToolStripMenuItem.Text = "New Party";
-            this.newPartyToolStripMenuItem.Click += new System.EventHandler(this.NewPartyToolStripMenuItem_Click);
+            this.menuNewParty.Name = "menuNewParty";
+            this.menuNewParty.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.menuNewParty.Size = new System.Drawing.Size(270, 34);
+            this.menuNewParty.Text = "New Party";
             // 
-            // loadPartyToolStripMenuItem
+            // MenuLoad
             // 
-            this.loadPartyToolStripMenuItem.Name = "loadPartyToolStripMenuItem";
-            this.loadPartyToolStripMenuItem.Size = new System.Drawing.Size(257, 34);
-            this.loadPartyToolStripMenuItem.Text = "Load Party..";
+            this.MenuLoad.Name = "MenuLoad";
+            this.MenuLoad.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.MenuLoad.Size = new System.Drawing.Size(270, 34);
+            this.MenuLoad.Text = "Load Party..";
             // 
-            // savePartyToolStripMenuItem
+            // MenuSave
             // 
-            this.savePartyToolStripMenuItem.Name = "savePartyToolStripMenuItem";
-            this.savePartyToolStripMenuItem.Size = new System.Drawing.Size(257, 34);
-            this.savePartyToolStripMenuItem.Text = "Save Party..";
+            this.MenuSave.Name = "MenuSave";
+            this.MenuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.MenuSave.Size = new System.Drawing.Size(270, 34);
+            this.MenuSave.Text = "Save Party..";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(254, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(267, 6);
             // 
-            // quitToolStripMenuItem
+            // MenuQuit
             // 
-            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(257, 34);
-            this.quitToolStripMenuItem.Text = "Quit";
-            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 25;
-            this.listBox1.Location = new System.Drawing.Point(486, 91);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(429, 479);
-            this.listBox1.TabIndex = 3;
+            this.MenuQuit.Name = "MenuQuit";
+            this.MenuQuit.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.Q)));
+            this.MenuQuit.Size = new System.Drawing.Size(270, 34);
+            this.MenuQuit.Text = "Quit";
             // 
             // character_Tree1
             // 
+            this.character_Tree1.CheckBoxes = true;
             this.character_Tree1.Cursor = System.Windows.Forms.Cursors.Default;
             this.character_Tree1.Location = new System.Drawing.Point(13, 91);
             this.character_Tree1.Name = "character_Tree1";
+            this.character_Tree1.ShowPlusMinus = false;
+            this.character_Tree1.ShowRootLines = false;
             this.character_Tree1.Size = new System.Drawing.Size(279, 466);
             this.character_Tree1.TabIndex = 4;
             // 
-            // Form1
+            // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1117, 731);
             this.Controls.Add(this.character_Tree1);
-            this.Controls.Add(this.listBox1);
             this.Controls.Add(Heading_PlayerList);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "Main_Form";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -152,14 +146,13 @@ namespace Combat_Tracker_5e
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newPartyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadPartyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem savePartyToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.TextBox Heading_PlayerList;
-        private System.Windows.Forms.ListBox listBox1;
         private Character_Tree character_Tree1;
+        private Controls.Managed_MenuItem menuNewParty;
+        private Controls.Managed_MenuItem MenuLoad;
+        private Controls.Managed_MenuItem MenuSave;
+        private Controls.Managed_MenuItem MenuQuit;
     }
 }
 

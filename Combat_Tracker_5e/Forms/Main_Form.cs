@@ -17,6 +17,24 @@ namespace Combat_Tracker_5e
             InitializeComponent();
         }
 
+        public override bool Handle_Action(string action)
+        {
+            switch (action)
+            {
+                case "NewParty":
+                    Manager.Instance.New();
+                    return true;
+                case "Quit":
+                    //Possibly redundant
+                    character_Tree1.Cleanup();
+                    /////////////////
+                    Manager.Instance.quit_form(this);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
            Manager.Instance.register_main(this);
@@ -27,20 +45,11 @@ namespace Combat_Tracker_5e
             Manager.Instance.New();
         }
 
-        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //Possibly redundant
-            character_Tree1.Cleanup();
-            /////////////////
-            Manager.Instance.quit_form(this);
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             //Possibly redundant
             character_Tree1.Cleanup();
             /////////////////
-            Manager.Instance.quit_form(this);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Combat_Tracker_5e
         public static Manager Instance { get; } = new Manager();
         private Manager() { }
         private Managed_Form Main_Form;
+        private Character_Tree char_tree;
         private Managed_Form active_form;
         private Stack<Managed_Form> previous_forms = new();
         // Register Main Form
@@ -17,6 +18,14 @@ namespace Combat_Tracker_5e
         {
             if (Main_Form == null) Main_Form = mainForm;
             active_form = mainForm;
+            foreach (Control control in active_form.Controls)
+            {
+                if (control.GetType().Name == "Character_Tree")
+                {
+                    char_tree = (Character_Tree)control;
+                    break;
+                }
+            }
         }
 
         // party
@@ -24,6 +33,7 @@ namespace Combat_Tracker_5e
         public void New_Party(Queue<string> members)    
         {
             party.New(members);
+            char_tree.Populate_Players();
         }
         public List<string> Party_List()
         {

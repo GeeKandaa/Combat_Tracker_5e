@@ -24,19 +24,19 @@ namespace Combat_Tracker_5e
         {
             switch (action)
             {
-                case "Btn_Cancel":
+                case "Cancel":
                     Manager.Instance.quit_form(this);
                     return true;
-                case "Btn_AddChar":
+                case "AddChar":
                     CharList.AddMember(nameInput.Text);
                     return true;
-                case "Btn_RemoveChar":
+                case "RemoveChar":
                     CharList.RemoveMember();
                     return true;
-                case "Btn_Clear":
+                case "Clear":
                     CharList.RemoveAll();
                     return true;
-                case "Btn_Confirm":
+                case "Confirm":
                     Manager.Instance.New_Party(CharList.Get_Members());
                     Manager.Instance.quit_form(this);
                     return true;
