@@ -20,7 +20,11 @@ namespace Combat_Tracker_5e
         }
 
         // party
-        private Party party;
+        private Party party = new();
+        public void New_Party(Queue<string> members)    
+        {
+            party.New(members);
+        }
         public List<string> Party_List()
         {
             return party.Get_Party();

@@ -29,27 +29,14 @@ namespace Combat_Tracker_5e
         /// </summary>
         private void InitializeComponent()
         {
-            this.Btn_Confirm = new System.Windows.Forms.Button();
             this.nameInput = new Combat_Tracker_5e.Controls.NameInput_TextBox();
             this.Btn_Cancel = new Combat_Tracker_5e.Controls.Managed_Button();
             this.Btn_AddChar = new Combat_Tracker_5e.Controls.Managed_Button();
             this.CharList = new Combat_Tracker_5e.Controls.NewPartyList_ListBox();
             this.Btn_RemoveChar = new Combat_Tracker_5e.Controls.Managed_Button();
             this.Btn_Clear = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.Btn_Confirm = new Combat_Tracker_5e.Controls.Managed_Button();
             this.SuspendLayout();
-            // 
-            // Btn_Confirm
-            // 
-            this.Btn_Confirm.BackColor = System.Drawing.SystemColors.Control;
-            this.Btn_Confirm.Enabled = false;
-            this.Btn_Confirm.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.Btn_Confirm.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.Btn_Confirm.Location = new System.Drawing.Point(151, 652);
-            this.Btn_Confirm.Name = "Btn_Confirm";
-            this.Btn_Confirm.Size = new System.Drawing.Size(214, 57);
-            this.Btn_Confirm.TabIndex = 8;
-            this.Btn_Confirm.Text = "Confirm Party";
-            this.Btn_Confirm.UseVisualStyleBackColor = false;
             // 
             // nameInput
             // 
@@ -113,19 +100,30 @@ namespace Combat_Tracker_5e
             this.Btn_Clear.Text = "Clear Party";
             this.Btn_Clear.UseVisualStyleBackColor = true;
             // 
+            // Btn_Confirm
+            // 
+            this.Btn_Confirm.Enabled = false;
+            this.Btn_Confirm.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Btn_Confirm.Location = new System.Drawing.Point(155, 652);
+            this.Btn_Confirm.Name = "Btn_Confirm";
+            this.Btn_Confirm.Size = new System.Drawing.Size(214, 57);
+            this.Btn_Confirm.TabIndex = 15;
+            this.Btn_Confirm.Text = "Confirm Party";
+            this.Btn_Confirm.UseVisualStyleBackColor = true;
+            // 
             // PartyCreation_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(859, 748);
             this.ControlBox = false;
+            this.Controls.Add(this.Btn_Confirm);
             this.Controls.Add(this.Btn_Clear);
             this.Controls.Add(this.Btn_RemoveChar);
             this.Controls.Add(this.CharList);
             this.Controls.Add(this.Btn_AddChar);
             this.Controls.Add(this.Btn_Cancel);
             this.Controls.Add(this.nameInput);
-            this.Controls.Add(this.Btn_Confirm);
             this.Name = "PartyCreation_Form";
             this.Text = "Form2";
             this.ResumeLayout(false);
@@ -134,12 +132,12 @@ namespace Combat_Tracker_5e
         }
 
         #endregion
-        private System.Windows.Forms.Button Btn_Confirm;
         private Controls.NameInput_TextBox nameInput;
         private Controls.Managed_Button Btn_Cancel;
         private Controls.Managed_Button Btn_AddChar;
         private Controls.NewPartyList_ListBox CharList;
         private Controls.Managed_Button Btn_RemoveChar;
         private Controls.Managed_Button Btn_Clear;
+        private Controls.Managed_Button Btn_Confirm;
     }
 }

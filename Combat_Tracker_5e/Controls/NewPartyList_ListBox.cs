@@ -10,16 +10,17 @@ namespace Combat_Tracker_5e.Controls
     class NewPartyList_ListBox : ListBox
     {
         Managed_Button clear_button;
+        Managed_Button confirmed_button;
         Managed_Button remove_button;
-        Queue<string> party_list = new();
 
         public NewPartyList_ListBox()
         {
             this.SelectionMode = SelectionMode.MultiExtended;
         }
-        public void Attach_Button(Managed_Button clr_btn, Managed_Button rm_btn)
+        public void Attach_Button(Managed_Button clr_btn, Managed_Button cfm_btn, Managed_Button rm_btn)
         {
             clear_button = clr_btn;
+            confirmed_button = cfm_btn;
             remove_button = rm_btn;
         }
 
@@ -39,6 +40,7 @@ namespace Combat_Tracker_5e.Controls
         {
             this.Items.Add(char_name);
             clear_button.Enabled = true;
+            confirmed_button.Enabled = true;
         }
         public void RemoveMember()
         {
@@ -51,8 +53,27 @@ namespace Combat_Tracker_5e.Controls
                 this.Items.RemoveAt(i);
             }
             this.EndUpdate();
-            if (this.Items.Count == 0) clear_button.Enabled = false;
+            if (this.Items.Count == 0)
+            {
+                clear_button.Enabled = false;
+                confirmed_button.Enabled = false;
+            }
+        }
+        public void RemoveAll()
+        {
+            this.Items.Clear();
+            clear_button.Enabled = false;
+            confirmed_button.Enabled = false;
         }
 
+        public Queue<string> Get_Members()
+        {
+            Queue<string> party_list = new();
+            foreach (string member in this.Items)
+            {
+                party_list.Enqueue(member);
+            }
+            return party_list;
+        }
     }
 }

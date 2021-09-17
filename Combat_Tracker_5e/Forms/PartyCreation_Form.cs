@@ -17,7 +17,7 @@ namespace Combat_Tracker_5e
         {
             InitializeComponent();
             nameInput.Attach_Button(Btn_AddChar);
-            CharList.Attach_Button(Btn_Clear, Btn_RemoveChar);
+            CharList.Attach_Button(Btn_Clear, Btn_Confirm, Btn_RemoveChar);
         }
 
         public override bool Handle_Action(string action)
@@ -34,8 +34,11 @@ namespace Combat_Tracker_5e
                     CharList.RemoveMember();
                     return true;
                 case "Btn_Clear":
-                    CharList.Items.Clear();
-                    Btn_Clear.Enabled = false;
+                    CharList.RemoveAll();
+                    return true;
+                case "Btn_Confirm":
+                    Manager.Instance.New_Party(CharList.Get_Members());
+                    Manager.Instance.quit_form(this);
                     return true;
                 default:
                     return false;
