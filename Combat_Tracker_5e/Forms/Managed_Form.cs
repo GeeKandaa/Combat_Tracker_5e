@@ -8,20 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Combat_Tracker_5e
+namespace Combat_Tracker_5e.Forms
 {
-    public partial class Form2 : Form
+    public partial class Managed_Form : Form
     {
-
-        public Form2()
+        public Managed_Form()
         {
             InitializeComponent();
-            nameInput.Attach_Button(Btn_AddChar);
         }
 
-        private void Btn_CancelNew_Click(object sender, EventArgs e)
+        public virtual bool Handle_Action(string action)
         {
-            Manager.Instance.quit_form(this);   
+            return false;
         }
     }
 }

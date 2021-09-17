@@ -71,7 +71,7 @@ namespace Combat_Tracker_5e
             }
         }
 
-        public List<string> get_party()
+        public List<string> Get_Party()
         {
             return Members;
         }

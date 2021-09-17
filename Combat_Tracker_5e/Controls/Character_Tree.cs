@@ -9,10 +9,16 @@ namespace Combat_Tracker_5e
 {
     class Character_Tree : TreeView
     {
+        TreeNode PlayerNode = new();
+        TreeNode NpcNode = new();
         public Character_Tree() 
         {
-            Nodes.Add("Players");
-            Nodes.Add("NPCs");
+            PlayerNode.Text = "Players";
+            NpcNode.Text = "NPCs";
+            this.Nodes.Add(PlayerNode);
+            this.Nodes.Add(NpcNode);
+
+            
         }
 
         protected override void OnDrawNode(DrawTreeNodeEventArgs e)
@@ -21,6 +27,10 @@ namespace Combat_Tracker_5e
             ExpandAll();
         }
 
+        public void Cleanup()
+        {
+            this.Nodes.Clear();
+        }
 
     }
 }

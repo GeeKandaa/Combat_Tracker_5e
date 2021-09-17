@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
+using Combat_Tracker_5e.Forms;
 
 namespace Combat_Tracker_5e
 {
@@ -8,11 +9,11 @@ namespace Combat_Tracker_5e
         // singleton setup
         public static Manager Instance { get; } = new Manager();
         private Manager() { }
-        private Form Main_Form;
-        private Form active_form;
-        private Stack<Form> previous_forms = new();
+        private Managed_Form Main_Form;
+        private Managed_Form active_form;
+        private Stack<Managed_Form> previous_forms = new();
         // Register Main Form
-        public void register_main(Form mainForm)
+        public void register_main(Managed_Form mainForm)
         {
             if (Main_Form == null) Main_Form = mainForm;
             active_form = mainForm;
@@ -22,24 +23,38 @@ namespace Combat_Tracker_5e
         private Party party;
         public List<string> Party_List()
         {
-            return party.get_party();
+            return party.Get_Party();
         }
         
-        public void quit_form(Form exiting_form)
-        {
-            exiting_form.Close();
-            active_form = previous_forms.Pop();
-            active_form.Show();
-        }
-
         // UI Commands
         public void New()
         {
             previous_forms.Push(active_form);
             Main_Form.Hide();
-            Form2 f2 = new();
+            PartyCreation_Form f2 = new();
             active_form = f2;
             f2.Show();
+        }
+        public void HandleButtonAction(string action)
+        {
+            if (active_form.Handle_Action(action) == true) return;
+            foreach(Managed_Form form in previous_forms)
+            {
+                if (form.Handle_Action(action) == true) return;
+            }
+        }
+        public void quit_form(Managed_Form exiting_form)
+        {
+            if (exiting_form == Main_Form)
+            {
+                Application.Exit();
+            }
+            else
+            {
+                exiting_form.Close();
+                active_form = previous_forms.Pop();
+                active_form.Show();
+            }
         }
     }
 }

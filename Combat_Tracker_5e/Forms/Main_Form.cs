@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Combat_Tracker_5e
 {
-    public partial class Form1 : Form
+    public partial class Main_Form : Forms.Managed_Form
     {   
-        public Form1()
+        public Main_Form()
         {
             InitializeComponent();
         }
@@ -25,6 +25,22 @@ namespace Combat_Tracker_5e
         private void NewPartyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Manager.Instance.New();
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Possibly redundant
+            character_Tree1.Cleanup();
+            /////////////////
+            Manager.Instance.quit_form(this);
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Possibly redundant
+            character_Tree1.Cleanup();
+            /////////////////
+            Manager.Instance.quit_form(this);
         }
     }
 }
