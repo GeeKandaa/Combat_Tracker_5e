@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Combat_Tracker_5e
+namespace Combat_Tracker_5e.Player_Classes
 {
     public class Party
     {

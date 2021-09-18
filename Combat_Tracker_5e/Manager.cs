@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using Combat_Tracker_5e.Forms;
+using Combat_Tracker_5e.Player_Classes;
 
 namespace Combat_Tracker_5e
 {
