@@ -14,7 +14,7 @@ namespace Combat_Tracker_5e.Controls
         protected override void OnClick(EventArgs e)
         {
             base.OnClick(e);
-            Manager.Instance.HandleButtonAction(this.Name.Substring(4));
+            Manager.Instance.HandleButtonAction(this.Name[4..]);
         }
     }
 }
