@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Combat_Tracker_5e.Controls;
 using Combat_Tracker_5e.Forms;
@@ -71,6 +73,54 @@ namespace Combat_Tracker_5e
                 active_form = previous_forms.Pop();
                 active_form.Show();
             }
+        }
+
+        // Hitpoint input validation
+        public int[] Verify_Hp(string hp_txt)
+        {
+            if (!Check_Format(hp_txt)) {
+                Display_Error();
+                return new int[0];
+            }
+            int[] hp_parts = HP_To_Int(hp_txt);
+            if (hp_parts[0] == -1) return new int[0];
+            return hp_parts;
+        }
+        private bool Check_Format(string hp_txt)
+        {
+            string[] test_array = hp_txt.Split("/");
+            if (test_array.Length > 2) return false;
+            foreach (string test_str in test_array)
+            {
+                if (!test_str.All(char.IsDigit)) return false;
+            }
+            return true;
+        }
+
+        private int[] HP_To_Int(string hp_txt)
+        {
+            string[] hp_strings = hp_txt.Split("/");
+            int[] hp_ints = new int[hp_strings.Length];
+            for (int i = 0; i < hp_strings.Length; i++)
+            {
+                try
+                {
+                    hp_ints[i] = Int32.Parse(hp_strings[i]);
+                }
+                catch (FormatException)
+                {
+                    Display_Error();
+                    hp_ints[0] = -1;
+                }
+            }
+            return hp_ints;
+        }
+
+        private void Display_Error()
+        {
+            string caption = "HP Parse Error!";
+            string msg = "HP should be integers. If character is not at maximum health, please specify in the following format:\n hp/max";
+            MessageBox.Show(msg, caption);
         }
     }
 }

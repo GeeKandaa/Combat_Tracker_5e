@@ -53,13 +53,13 @@ namespace Combat_Tracker_5e
             this.HpInput = new Combat_Tracker_5e.Controls.CustomInput_TextBox();
             this.NameInput = new Combat_Tracker_5e.Controls.CustomInput_TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.Btn_Combat = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.Btn_Initiative = new Combat_Tracker_5e.Controls.Managed_Button();
             this.Btn_Flee = new Combat_Tracker_5e.Controls.Managed_Button();
             this.Btn_EndTurn = new Combat_Tracker_5e.Controls.Managed_Button();
             this.Btn_NewParty = new Combat_Tracker_5e.Controls.Managed_Button();
             this.Btn_Load = new Combat_Tracker_5e.Controls.Managed_Button();
             this.Btn_Quit = new Combat_Tracker_5e.Controls.Managed_Button();
-            this.Btn_Initiative = new Combat_Tracker_5e.Controls.Managed_Button();
-            this.Btn_StartCombat = new Combat_Tracker_5e.Controls.Managed_Button();
             this.managed_Button2 = new Combat_Tracker_5e.Controls.Managed_Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.combatDisplay_DataGridView1)).BeginInit();
@@ -74,7 +74,7 @@ namespace Combat_Tracker_5e
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1066, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1019, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -126,6 +126,10 @@ namespace Combat_Tracker_5e
             // 
             // combatDisplay_DataGridView1
             // 
+            this.combatDisplay_DataGridView1.AllowUserToAddRows = false;
+            this.combatDisplay_DataGridView1.AllowUserToDeleteRows = false;
+            this.combatDisplay_DataGridView1.AllowUserToResizeColumns = false;
+            this.combatDisplay_DataGridView1.AllowUserToResizeRows = false;
             this.combatDisplay_DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.combatDisplay_DataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Colm_Turn,
@@ -136,10 +140,14 @@ namespace Combat_Tracker_5e
             this.Colm_HP});
             this.combatDisplay_DataGridView1.Location = new System.Drawing.Point(12, 36);
             this.combatDisplay_DataGridView1.Name = "combatDisplay_DataGridView1";
-            this.combatDisplay_DataGridView1.RowHeadersWidth = 62;
+            this.combatDisplay_DataGridView1.ReadOnly = true;
+            this.combatDisplay_DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.combatDisplay_DataGridView1.RowTemplate.Height = 33;
-            this.combatDisplay_DataGridView1.Size = new System.Drawing.Size(650, 683);
+            this.combatDisplay_DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.combatDisplay_DataGridView1.ShowCellToolTips = false;
+            this.combatDisplay_DataGridView1.Size = new System.Drawing.Size(610, 683);
             this.combatDisplay_DataGridView1.TabIndex = 6;
+            this.combatDisplay_DataGridView1.TabStop = false;
             // 
             // Colm_Turn
             // 
@@ -197,6 +205,7 @@ namespace Combat_Tracker_5e
             // 
             // Btn_Concentrate
             // 
+            this.Btn_Concentrate.Enabled = false;
             this.Btn_Concentrate.Location = new System.Drawing.Point(0, 169);
             this.Btn_Concentrate.Name = "Btn_Concentrate";
             this.Btn_Concentrate.Size = new System.Drawing.Size(190, 49);
@@ -206,6 +215,7 @@ namespace Combat_Tracker_5e
             // 
             // Btn_Stun
             // 
+            this.Btn_Stun.Enabled = false;
             this.Btn_Stun.Location = new System.Drawing.Point(196, 169);
             this.Btn_Stun.Name = "Btn_Stun";
             this.Btn_Stun.Size = new System.Drawing.Size(190, 49);
@@ -215,6 +225,7 @@ namespace Combat_Tracker_5e
             // 
             // Btn_Damage
             // 
+            this.Btn_Damage.Enabled = false;
             this.Btn_Damage.Location = new System.Drawing.Point(0, 92);
             this.Btn_Damage.Name = "Btn_Damage";
             this.Btn_Damage.Size = new System.Drawing.Size(190, 49);
@@ -224,6 +235,7 @@ namespace Combat_Tracker_5e
             // 
             // Btn_Heal
             // 
+            this.Btn_Heal.Enabled = false;
             this.Btn_Heal.Location = new System.Drawing.Point(196, 92);
             this.Btn_Heal.Name = "Btn_Heal";
             this.Btn_Heal.Size = new System.Drawing.Size(190, 49);
@@ -248,7 +260,7 @@ namespace Combat_Tracker_5e
             this.panel1.Controls.Add(this.HpInput);
             this.panel1.Controls.Add(this.NameInput);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(668, 209);
+            this.panel1.Location = new System.Drawing.Point(625, 209);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(389, 197);
             this.panel1.TabIndex = 12;
@@ -282,7 +294,7 @@ namespace Combat_Tracker_5e
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.Btn_StartCombat);
+            this.panel2.Controls.Add(this.Btn_Combat);
             this.panel2.Controls.Add(this.Btn_Initiative);
             this.panel2.Controls.Add(this.Btn_Stun);
             this.panel2.Controls.Add(this.Btn_Concentrate);
@@ -290,55 +302,19 @@ namespace Combat_Tracker_5e
             this.panel2.Controls.Add(this.Btn_Damage);
             this.panel2.Controls.Add(this.Btn_Heal);
             this.panel2.Controls.Add(this.Btn_EndTurn);
-            this.panel2.Location = new System.Drawing.Point(671, 412);
+            this.panel2.Location = new System.Drawing.Point(628, 412);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(386, 307);
             this.panel2.TabIndex = 13;
             // 
-            // Btn_Flee
+            // Btn_Combat
             // 
-            this.Btn_Flee.Location = new System.Drawing.Point(0, 241);
-            this.Btn_Flee.Name = "Btn_Flee";
-            this.Btn_Flee.Size = new System.Drawing.Size(190, 49);
-            this.Btn_Flee.TabIndex = 12;
-            this.Btn_Flee.Text = "Flee";
-            this.Btn_Flee.UseVisualStyleBackColor = true;
-            // 
-            // Btn_EndTurn
-            // 
-            this.Btn_EndTurn.Location = new System.Drawing.Point(196, 241);
-            this.Btn_EndTurn.Name = "Btn_EndTurn";
-            this.Btn_EndTurn.Size = new System.Drawing.Size(190, 49);
-            this.Btn_EndTurn.TabIndex = 13;
-            this.Btn_EndTurn.Text = "End Turn";
-            this.Btn_EndTurn.UseVisualStyleBackColor = true;
-            // 
-            // Btn_NewParty
-            // 
-            this.Btn_NewParty.Location = new System.Drawing.Point(668, 36);
-            this.Btn_NewParty.Name = "Btn_NewParty";
-            this.Btn_NewParty.Size = new System.Drawing.Size(120, 48);
-            this.Btn_NewParty.TabIndex = 17;
-            this.Btn_NewParty.Text = "New Party";
-            this.Btn_NewParty.UseVisualStyleBackColor = true;
-            // 
-            // Btn_Load
-            // 
-            this.Btn_Load.Location = new System.Drawing.Point(937, 36);
-            this.Btn_Load.Name = "Btn_Load";
-            this.Btn_Load.Size = new System.Drawing.Size(120, 48);
-            this.Btn_Load.TabIndex = 19;
-            this.Btn_Load.Text = "Load Party";
-            this.Btn_Load.UseVisualStyleBackColor = true;
-            // 
-            // Btn_Quit
-            // 
-            this.Btn_Quit.Location = new System.Drawing.Point(937, 95);
-            this.Btn_Quit.Name = "Btn_Quit";
-            this.Btn_Quit.Size = new System.Drawing.Size(120, 48);
-            this.Btn_Quit.TabIndex = 20;
-            this.Btn_Quit.Text = "Quit";
-            this.Btn_Quit.UseVisualStyleBackColor = true;
+            this.Btn_Combat.Location = new System.Drawing.Point(196, 14);
+            this.Btn_Combat.Name = "Btn_Combat";
+            this.Btn_Combat.Size = new System.Drawing.Size(190, 49);
+            this.Btn_Combat.TabIndex = 15;
+            this.Btn_Combat.Text = "Start Combat";
+            this.Btn_Combat.UseVisualStyleBackColor = true;
             // 
             // Btn_Initiative
             // 
@@ -349,18 +325,56 @@ namespace Combat_Tracker_5e
             this.Btn_Initiative.Text = "Set Initiative";
             this.Btn_Initiative.UseVisualStyleBackColor = true;
             // 
-            // Btn_StartCombat
+            // Btn_Flee
             // 
-            this.Btn_StartCombat.Location = new System.Drawing.Point(196, 14);
-            this.Btn_StartCombat.Name = "Btn_StartCombat";
-            this.Btn_StartCombat.Size = new System.Drawing.Size(190, 49);
-            this.Btn_StartCombat.TabIndex = 15;
-            this.Btn_StartCombat.Text = "Start Combat";
-            this.Btn_StartCombat.UseVisualStyleBackColor = true;
+            this.Btn_Flee.Enabled = false;
+            this.Btn_Flee.Location = new System.Drawing.Point(0, 241);
+            this.Btn_Flee.Name = "Btn_Flee";
+            this.Btn_Flee.Size = new System.Drawing.Size(190, 49);
+            this.Btn_Flee.TabIndex = 12;
+            this.Btn_Flee.Text = "Flee";
+            this.Btn_Flee.UseVisualStyleBackColor = true;
+            // 
+            // Btn_EndTurn
+            // 
+            this.Btn_EndTurn.Enabled = false;
+            this.Btn_EndTurn.Location = new System.Drawing.Point(196, 241);
+            this.Btn_EndTurn.Name = "Btn_EndTurn";
+            this.Btn_EndTurn.Size = new System.Drawing.Size(190, 49);
+            this.Btn_EndTurn.TabIndex = 13;
+            this.Btn_EndTurn.Text = "End Turn";
+            this.Btn_EndTurn.UseVisualStyleBackColor = true;
+            // 
+            // Btn_NewParty
+            // 
+            this.Btn_NewParty.Location = new System.Drawing.Point(625, 36);
+            this.Btn_NewParty.Name = "Btn_NewParty";
+            this.Btn_NewParty.Size = new System.Drawing.Size(120, 48);
+            this.Btn_NewParty.TabIndex = 17;
+            this.Btn_NewParty.Text = "New Party";
+            this.Btn_NewParty.UseVisualStyleBackColor = true;
+            // 
+            // Btn_Load
+            // 
+            this.Btn_Load.Location = new System.Drawing.Point(894, 36);
+            this.Btn_Load.Name = "Btn_Load";
+            this.Btn_Load.Size = new System.Drawing.Size(120, 48);
+            this.Btn_Load.TabIndex = 19;
+            this.Btn_Load.Text = "Load Party";
+            this.Btn_Load.UseVisualStyleBackColor = true;
+            // 
+            // Btn_Quit
+            // 
+            this.Btn_Quit.Location = new System.Drawing.Point(894, 95);
+            this.Btn_Quit.Name = "Btn_Quit";
+            this.Btn_Quit.Size = new System.Drawing.Size(120, 48);
+            this.Btn_Quit.TabIndex = 20;
+            this.Btn_Quit.Text = "Quit";
+            this.Btn_Quit.UseVisualStyleBackColor = true;
             // 
             // managed_Button2
             // 
-            this.managed_Button2.Location = new System.Drawing.Point(802, 36);
+            this.managed_Button2.Location = new System.Drawing.Point(759, 36);
             this.managed_Button2.Name = "managed_Button2";
             this.managed_Button2.Size = new System.Drawing.Size(120, 48);
             this.managed_Button2.TabIndex = 18;
@@ -371,7 +385,7 @@ namespace Combat_Tracker_5e
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1066, 731);
+            this.ClientSize = new System.Drawing.Size(1019, 731);
             this.Controls.Add(this.Btn_Quit);
             this.Controls.Add(this.Btn_Load);
             this.Controls.Add(this.managed_Button2);
@@ -426,7 +440,7 @@ namespace Combat_Tracker_5e
         private Controls.Managed_Button Btn_NewParty;
         private Controls.Managed_Button Btn_Load;
         private Controls.Managed_Button Btn_Quit;
-        private Controls.Managed_Button Btn_StartCombat;
+        private Controls.Managed_Button Btn_Combat;
         private Controls.Managed_Button Btn_Initiative;
         private Controls.Managed_Button managed_Button2;
     }

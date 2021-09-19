@@ -89,13 +89,16 @@ namespace Combat_Tracker_5e.Player_Classes
 
         private void Check_Concentration()
         {
-            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-            DialogResult result = MessageBox.Show("Does this character maintain concentration?", "", buttons);
-            if (result == DialogResult.Yes)
+            if (concentrating)
             {
-                return;
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result = MessageBox.Show("Does this character maintain concentration?", "", buttons);
+                if (result == DialogResult.Yes)
+                {
+                    return;
+                }
+                else Toggle_Concentration();
             }
-            else Toggle_Concentration();
         }
     }
 }

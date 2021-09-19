@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Combat_Tracker_5e.Controls;
+using Combat_Tracker_5e.Player_Classes;
+using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Combat_Tracker_5e
 {
     public partial class Main_Form : Forms.Managed_Form
-    {   
+    {
+        List<Managed_Button> buttons;
         public Main_Form()
         {
             InitializeComponent();
@@ -21,7 +25,20 @@ namespace Combat_Tracker_5e
                     Manager.Instance.quit_form(this);
                     return true;
                 case "Add":
-                    combatDisplay_DataGridView1.Add_NPC(new Player_Classes.Character(NameInput.Text, 13));
+                    int[] hp_parts = Manager.Instance.Verify_Hp(HpInput.Text);
+                    if (!(hp_parts.Length > 0)) return true;
+
+                    Character new_npc;
+                    if (hp_parts.Length == 1)
+                    {
+                        new_npc = new(NameInput.Text, hp_parts[0]);
+                    }
+                    else new_npc = new(NameInput.Text, hp_parts[0], hp_parts[1]);
+
+                    combatDisplay_DataGridView1.Add_NPC(new_npc);
+                    return true;
+                case "Damage":
+                    
                     return true;
                 case "Flee":
                     combatDisplay_DataGridView1.Remove_NPC();
@@ -38,6 +55,19 @@ namespace Combat_Tracker_5e
             HpInput.Set_GhostText("NPC Hit Points");
             NameInput.Attach_Button(Btn_Add);
             HpInput.Attach_Button(Btn_Add);
+
+            buttons = new List<Managed_Button>()
+            {
+                Btn_Damage,
+                Btn_Heal,
+                Btn_Concentrate,
+                Btn_Stun,
+                Btn_Flee
+            };
+            combatDisplay_DataGridView1.Attach_Buttons(buttons);
+            combatDisplay_DataGridView1.Attach_Buttons(Btn_EndTurn, "On");
+            combatDisplay_DataGridView1.Attach_Buttons(Btn_Initiative, "Off");
+            combatDisplay_DataGridView1.Attach_Buttons(Btn_Combat, "Switch");
         }
     }
 }
