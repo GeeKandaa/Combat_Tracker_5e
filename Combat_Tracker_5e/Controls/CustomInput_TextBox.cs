@@ -30,12 +30,12 @@ namespace Combat_Tracker_5e.Controls
         {
             if (this.TextLength != 0)
             {
-                attached_btn.Try_Enable(this,true);
+                if (attached_btn != null) attached_btn.Try_Enable(this,true);
                 this.ForeColor = Color.Black;
             }
             else
             {
-                attached_btn.Try_Enable(this,false);
+                if (attached_btn != null) attached_btn.Try_Enable(this,false);
             }
         }
 

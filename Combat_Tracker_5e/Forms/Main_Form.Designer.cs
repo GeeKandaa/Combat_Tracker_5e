@@ -43,8 +43,28 @@ namespace Combat_Tracker_5e
             this.Colm_Stunned = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Colm_Concentration = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Colm_HP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Btn_Concentrate = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.Btn_Stun = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.Btn_Damage = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.Btn_Heal = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.Btn_Add = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.HpInput = new Combat_Tracker_5e.Controls.CustomInput_TextBox();
+            this.NameInput = new Combat_Tracker_5e.Controls.CustomInput_TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.Btn_Flee = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.Btn_EndTurn = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.Btn_NewParty = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.Btn_Load = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.Btn_Quit = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.Btn_Initiative = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.Btn_StartCombat = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.managed_Button2 = new Combat_Tracker_5e.Controls.Managed_Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.combatDisplay_DataGridView1)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -54,7 +74,7 @@ namespace Combat_Tracker_5e
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1117, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1066, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -175,11 +195,189 @@ namespace Combat_Tracker_5e
             this.Colm_HP.ReadOnly = true;
             this.Colm_HP.Width = 124;
             // 
+            // Btn_Concentrate
+            // 
+            this.Btn_Concentrate.Location = new System.Drawing.Point(0, 169);
+            this.Btn_Concentrate.Name = "Btn_Concentrate";
+            this.Btn_Concentrate.Size = new System.Drawing.Size(190, 49);
+            this.Btn_Concentrate.TabIndex = 7;
+            this.Btn_Concentrate.Text = "Toggle Concentrating";
+            this.Btn_Concentrate.UseVisualStyleBackColor = true;
+            // 
+            // Btn_Stun
+            // 
+            this.Btn_Stun.Location = new System.Drawing.Point(196, 169);
+            this.Btn_Stun.Name = "Btn_Stun";
+            this.Btn_Stun.Size = new System.Drawing.Size(190, 49);
+            this.Btn_Stun.TabIndex = 8;
+            this.Btn_Stun.Text = "Toggle Stunned";
+            this.Btn_Stun.UseVisualStyleBackColor = true;
+            // 
+            // Btn_Damage
+            // 
+            this.Btn_Damage.Location = new System.Drawing.Point(0, 92);
+            this.Btn_Damage.Name = "Btn_Damage";
+            this.Btn_Damage.Size = new System.Drawing.Size(190, 49);
+            this.Btn_Damage.TabIndex = 10;
+            this.Btn_Damage.Text = "Damage";
+            this.Btn_Damage.UseVisualStyleBackColor = true;
+            // 
+            // Btn_Heal
+            // 
+            this.Btn_Heal.Location = new System.Drawing.Point(196, 92);
+            this.Btn_Heal.Name = "Btn_Heal";
+            this.Btn_Heal.Size = new System.Drawing.Size(190, 49);
+            this.Btn_Heal.TabIndex = 9;
+            this.Btn_Heal.Text = "Heal";
+            this.Btn_Heal.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(14, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(117, 28);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Add NPC";
+            // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.Btn_Add);
+            this.panel1.Controls.Add(this.HpInput);
+            this.panel1.Controls.Add(this.NameInput);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Location = new System.Drawing.Point(668, 209);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(389, 197);
+            this.panel1.TabIndex = 12;
+            // 
+            // Btn_Add
+            // 
+            this.Btn_Add.Location = new System.Drawing.Point(228, 108);
+            this.Btn_Add.Name = "Btn_Add";
+            this.Btn_Add.Size = new System.Drawing.Size(149, 39);
+            this.Btn_Add.TabIndex = 16;
+            this.Btn_Add.Text = "Add";
+            this.Btn_Add.UseVisualStyleBackColor = true;
+            // 
+            // HpInput
+            // 
+            this.HpInput.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.HpInput.ForeColor = System.Drawing.Color.Black;
+            this.HpInput.Location = new System.Drawing.Point(14, 108);
+            this.HpInput.Name = "HpInput";
+            this.HpInput.Size = new System.Drawing.Size(208, 39);
+            this.HpInput.TabIndex = 15;
+            // 
+            // NameInput
+            // 
+            this.NameInput.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.NameInput.ForeColor = System.Drawing.Color.Black;
+            this.NameInput.Location = new System.Drawing.Point(14, 59);
+            this.NameInput.Name = "NameInput";
+            this.NameInput.Size = new System.Drawing.Size(363, 39);
+            this.NameInput.TabIndex = 14;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.Btn_StartCombat);
+            this.panel2.Controls.Add(this.Btn_Initiative);
+            this.panel2.Controls.Add(this.Btn_Stun);
+            this.panel2.Controls.Add(this.Btn_Concentrate);
+            this.panel2.Controls.Add(this.Btn_Flee);
+            this.panel2.Controls.Add(this.Btn_Damage);
+            this.panel2.Controls.Add(this.Btn_Heal);
+            this.panel2.Controls.Add(this.Btn_EndTurn);
+            this.panel2.Location = new System.Drawing.Point(671, 412);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(386, 307);
+            this.panel2.TabIndex = 13;
+            // 
+            // Btn_Flee
+            // 
+            this.Btn_Flee.Location = new System.Drawing.Point(0, 241);
+            this.Btn_Flee.Name = "Btn_Flee";
+            this.Btn_Flee.Size = new System.Drawing.Size(190, 49);
+            this.Btn_Flee.TabIndex = 12;
+            this.Btn_Flee.Text = "Flee";
+            this.Btn_Flee.UseVisualStyleBackColor = true;
+            // 
+            // Btn_EndTurn
+            // 
+            this.Btn_EndTurn.Location = new System.Drawing.Point(196, 241);
+            this.Btn_EndTurn.Name = "Btn_EndTurn";
+            this.Btn_EndTurn.Size = new System.Drawing.Size(190, 49);
+            this.Btn_EndTurn.TabIndex = 13;
+            this.Btn_EndTurn.Text = "End Turn";
+            this.Btn_EndTurn.UseVisualStyleBackColor = true;
+            // 
+            // Btn_NewParty
+            // 
+            this.Btn_NewParty.Location = new System.Drawing.Point(668, 36);
+            this.Btn_NewParty.Name = "Btn_NewParty";
+            this.Btn_NewParty.Size = new System.Drawing.Size(120, 48);
+            this.Btn_NewParty.TabIndex = 17;
+            this.Btn_NewParty.Text = "New Party";
+            this.Btn_NewParty.UseVisualStyleBackColor = true;
+            // 
+            // Btn_Load
+            // 
+            this.Btn_Load.Location = new System.Drawing.Point(937, 36);
+            this.Btn_Load.Name = "Btn_Load";
+            this.Btn_Load.Size = new System.Drawing.Size(120, 48);
+            this.Btn_Load.TabIndex = 19;
+            this.Btn_Load.Text = "Load Party";
+            this.Btn_Load.UseVisualStyleBackColor = true;
+            // 
+            // Btn_Quit
+            // 
+            this.Btn_Quit.Location = new System.Drawing.Point(937, 95);
+            this.Btn_Quit.Name = "Btn_Quit";
+            this.Btn_Quit.Size = new System.Drawing.Size(120, 48);
+            this.Btn_Quit.TabIndex = 20;
+            this.Btn_Quit.Text = "Quit";
+            this.Btn_Quit.UseVisualStyleBackColor = true;
+            // 
+            // Btn_Initiative
+            // 
+            this.Btn_Initiative.Location = new System.Drawing.Point(0, 14);
+            this.Btn_Initiative.Name = "Btn_Initiative";
+            this.Btn_Initiative.Size = new System.Drawing.Size(190, 49);
+            this.Btn_Initiative.TabIndex = 14;
+            this.Btn_Initiative.Text = "Set Initiative";
+            this.Btn_Initiative.UseVisualStyleBackColor = true;
+            // 
+            // Btn_StartCombat
+            // 
+            this.Btn_StartCombat.Location = new System.Drawing.Point(196, 14);
+            this.Btn_StartCombat.Name = "Btn_StartCombat";
+            this.Btn_StartCombat.Size = new System.Drawing.Size(190, 49);
+            this.Btn_StartCombat.TabIndex = 15;
+            this.Btn_StartCombat.Text = "Start Combat";
+            this.Btn_StartCombat.UseVisualStyleBackColor = true;
+            // 
+            // managed_Button2
+            // 
+            this.managed_Button2.Location = new System.Drawing.Point(802, 36);
+            this.managed_Button2.Name = "managed_Button2";
+            this.managed_Button2.Size = new System.Drawing.Size(120, 48);
+            this.managed_Button2.TabIndex = 18;
+            this.managed_Button2.Text = "Save Party";
+            this.managed_Button2.UseVisualStyleBackColor = true;
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1117, 731);
+            this.ClientSize = new System.Drawing.Size(1066, 731);
+            this.Controls.Add(this.Btn_Quit);
+            this.Controls.Add(this.Btn_Load);
+            this.Controls.Add(this.managed_Button2);
+            this.Controls.Add(this.Btn_NewParty);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.combatDisplay_DataGridView1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -189,6 +387,9 @@ namespace Combat_Tracker_5e
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.combatDisplay_DataGridView1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -210,6 +411,24 @@ namespace Combat_Tracker_5e
         private System.Windows.Forms.DataGridViewCheckBoxColumn Colm_Stunned;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Colm_Concentration;
         private System.Windows.Forms.DataGridViewTextBoxColumn Colm_HP;
+        private Controls.Managed_Button Btn_Concentrate;
+        private Controls.Managed_Button Btn_Stun;
+        private Controls.Managed_Button Btn_Damage;
+        private Controls.Managed_Button Btn_Heal;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private Controls.Managed_Button Btn_Flee;
+        private Controls.Managed_Button Btn_EndTurn;
+        private Controls.Managed_Button Btn_Add;
+        private Controls.CustomInput_TextBox HpInput;
+        private Controls.CustomInput_TextBox NameInput;
+        private Controls.Managed_Button Btn_NewParty;
+        private Controls.Managed_Button Btn_Load;
+        private Controls.Managed_Button Btn_Quit;
+        private Controls.Managed_Button Btn_StartCombat;
+        private Controls.Managed_Button Btn_Initiative;
+        private Controls.Managed_Button managed_Button2;
     }
 }
 

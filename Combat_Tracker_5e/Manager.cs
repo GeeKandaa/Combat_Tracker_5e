@@ -35,7 +35,7 @@ namespace Combat_Tracker_5e
         public void New_Party(List<Character> members)    
         {
             party.New(members);
-            combat_display.Populate_Players();
+            combat_display.Populate();
         }
         public List<Character> Get_Party()
         {

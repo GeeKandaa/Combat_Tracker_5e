@@ -20,6 +20,12 @@ namespace Combat_Tracker_5e
                 case "Quit":
                     Manager.Instance.quit_form(this);
                     return true;
+                case "Add":
+                    combatDisplay_DataGridView1.Add_NPC(new Player_Classes.Character(NameInput.Text, 13));
+                    return true;
+                case "Flee":
+                    combatDisplay_DataGridView1.Remove_NPC();
+                    return true;
                 default:
                     return false;
             }
@@ -27,12 +33,11 @@ namespace Combat_Tracker_5e
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           Manager.Instance.register_main(this);
-        }
-
-        private void NewPartyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Manager.Instance.New();
+            Manager.Instance.register_main(this);
+            NameInput.Set_GhostText("NPC Name");
+            HpInput.Set_GhostText("NPC Hit Points");
+            NameInput.Attach_Button(Btn_Add);
+            HpInput.Attach_Button(Btn_Add);
         }
     }
 }
