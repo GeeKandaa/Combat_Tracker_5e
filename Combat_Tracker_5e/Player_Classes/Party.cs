@@ -7,12 +7,12 @@ namespace Combat_Tracker_5e.Player_Classes
 {
     public class Party
     {
-        private List<string> Members = new();
-    
-        public void New(Queue<string> members)
+        private List<Character> Members = new();
+
+        public void New(List<Character> members)
         {
             Members.Clear();
-            foreach (string member in members)
+            foreach (Character member in members)
             {
                 Members.Add(member);
             }
@@ -43,35 +43,35 @@ namespace Combat_Tracker_5e.Player_Classes
 
         public void Save()
         {
-            using (SaveFileDialog saveFileDialog = new())
-            {
-                Queue<string> fileContent = new();
-                for (int i=0; i!= Members.Count;i++)
-                {
-                    fileContent.Enqueue(Members[i]);
-                }
+            //using (SaveFileDialog saveFileDialog = new())
+            //{
+            //    Queue<string> fileContent = new();
+            //    for (int i=0; i!= Members.Count;i++)
+            //    {
+            //        fileContent.Enqueue(Members[i]);
+            //    }
 
-                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                saveFileDialog.FileName = "Party.txt";
-                saveFileDialog.Filter = "Text Files (*.txt)|*.txt";
+            //    saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            //    saveFileDialog.FileName = "Party.txt";
+            //    saveFileDialog.Filter = "Text Files (*.txt)|*.txt";
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    using (StreamWriter sw = new(saveFileDialog.OpenFile()))
-                    {
-                        string line;
-                        while ((line = fileContent.Dequeue()) != null)
-                        {
-                            sw.WriteLine(line);
-                        }
-                        sw.Dispose();
-                        sw.Close();
-                    }
-                }
-            }
+            //    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            //    {
+            //        using (StreamWriter sw = new(saveFileDialog.OpenFile()))
+            //        {
+            //            string line;
+            //            while ((line = fileContent.Dequeue()) != null)
+            //            {
+            //                sw.WriteLine(line);
+            //            }
+            //            sw.Dispose();
+            //            sw.Close();
+            //        }
+            //    }
+            //}
         }
 
-        public List<string> Get_Party()
+        public List<Character> Get_Party()
         {
             return Members;
         }

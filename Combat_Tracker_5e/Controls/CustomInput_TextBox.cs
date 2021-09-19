@@ -4,32 +4,38 @@ using System.Windows.Forms;
 
 namespace Combat_Tracker_5e.Controls
 {
-    class NameInput_TextBox : TextBox
+    class CustomInput_TextBox : TextBox
     {
-        private Button attached_btn;
+        private string ghost_text = "";
+        private Managed_Button attached_btn;
 
-        public void Attach_Button(Button button)
+        public void Set_GhostText(string msg)
+        {
+            ghost_text = msg;
+        }
+        public void Attach_Button(Managed_Button button)
         {
             attached_btn = button;
+            attached_btn.Connect_To(this);
             Reset_Textfield();
         }
         private void Reset_Textfield()
         {
-            this.Text = "Enter character name..";
+            this.Text = ghost_text;
             this.ForeColor = Color.LightGray;
-            if (attached_btn!=null) attached_btn.Enabled = false;
+            if (attached_btn!=null) attached_btn.Try_Enable(this,false);
         }
 
         protected override void OnTextChanged(EventArgs e)
         {
             if (this.TextLength != 0)
             {
-                attached_btn.Enabled = true;
+                attached_btn.Try_Enable(this,true);
                 this.ForeColor = Color.Black;
             }
             else
             {
-                attached_btn.Enabled = false;
+                attached_btn.Try_Enable(this,false);
             }
         }
 

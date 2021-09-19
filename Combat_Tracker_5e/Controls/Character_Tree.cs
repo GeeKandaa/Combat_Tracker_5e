@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using Combat_Tracker_5e.Player_Classes;
+using System.Windows.Forms;
 
 namespace Combat_Tracker_5e
 {
@@ -19,9 +20,9 @@ namespace Combat_Tracker_5e
         public void Populate_Players()
         {
             PlayerNode.Nodes.Clear();
-            foreach (string name in Manager.Instance.Party_List())
+            foreach (Character player in Manager.Instance.Get_Party())
             {
-                PlayerNode.Nodes.Add(name);
+                PlayerNode.Nodes.Add(player.Char_Name);
             }
         }
         protected override void OnDrawNode(DrawTreeNodeEventArgs e)

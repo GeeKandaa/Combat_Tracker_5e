@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Combat_Tracker_5e.Player_Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -10,6 +11,8 @@ namespace Combat_Tracker_5e.Controls
         Managed_Button clear_button;
         Managed_Button confirmed_button;
         Managed_Button remove_button;
+
+        List<Character> player_store = new();
 
         public NewPartyList_ListBox()
         {
@@ -34,9 +37,11 @@ namespace Combat_Tracker_5e.Controls
                 remove_button.Enabled = false;
             }
         }
-        public void AddMember(string char_name)
+        public void AddMember(Character player)
         {
-            this.Items.Add(char_name);
+            player_store.Add(player);
+            string player_display = player.Char_Name + " - (" + player.HP + "/" + player.Max_HP + ")";
+            this.Items.Add(player_display);
             clear_button.Enabled = true;
             confirmed_button.Enabled = true;
         }
@@ -48,6 +53,7 @@ namespace Combat_Tracker_5e.Controls
 
             foreach (int i in removal_i)
             {
+                player_store.RemoveAt(i);
                 this.Items.RemoveAt(i);
             }
             this.EndUpdate();
@@ -59,19 +65,15 @@ namespace Combat_Tracker_5e.Controls
         }
         public void RemoveAll()
         {
+            player_store.Clear();
             this.Items.Clear();
             clear_button.Enabled = false;
             confirmed_button.Enabled = false;
         }
 
-        public Queue<string> Get_Members()
+        public List<Character> Get_Members()
         {
-            Queue<string> party_list = new();
-            foreach (string member in this.Items)
-            {
-                party_list.Enqueue(member);
-            }
-            return party_list;
+            return player_store;
         }
     }
 }

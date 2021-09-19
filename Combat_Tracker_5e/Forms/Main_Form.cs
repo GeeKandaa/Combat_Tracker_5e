@@ -18,9 +18,6 @@ namespace Combat_Tracker_5e
                     Manager.Instance.New();
                     return true;
                 case "Quit":
-                    //Possibly redundant
-                    character_Tree1.Cleanup();
-                    /////////////////
                     Manager.Instance.quit_form(this);
                     return true;
                 default:
@@ -36,13 +33,6 @@ namespace Combat_Tracker_5e
         private void NewPartyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Manager.Instance.New();
-        }
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //Possibly redundant
-            character_Tree1.Cleanup();
-            /////////////////
         }
     }
 }

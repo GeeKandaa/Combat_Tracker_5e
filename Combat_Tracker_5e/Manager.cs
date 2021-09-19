@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
+using Combat_Tracker_5e.Controls;
 using Combat_Tracker_5e.Forms;
 using Combat_Tracker_5e.Player_Classes;
 
@@ -11,7 +12,7 @@ namespace Combat_Tracker_5e
         public static Manager Instance { get; } = new Manager();
         private Manager() { }
         private Managed_Form Main_Form;
-        private Character_Tree char_tree;
+        private CombatDisplay_DataGridView combat_display;
         private Managed_Form active_form;
         private Stack<Managed_Form> previous_forms = new();
         // Register Main Form
@@ -21,9 +22,9 @@ namespace Combat_Tracker_5e
             active_form = mainForm;
             foreach (Control control in active_form.Controls)
             {
-                if (control.GetType().Name == "Character_Tree")
+                if (control.GetType().Name == "CombatDisplay_DataGridView")
                 {
-                    char_tree = (Character_Tree)control;
+                    combat_display = (CombatDisplay_DataGridView)control;
                     break;
                 }
             }
@@ -31,16 +32,16 @@ namespace Combat_Tracker_5e
 
         // party
         private Party party = new();
-        public void New_Party(Queue<string> members)    
+        public void New_Party(List<Character> members)    
         {
             party.New(members);
-            char_tree.Populate_Players();
+            combat_display.Populate_Players();
         }
-        public List<string> Party_List()
+        public List<Character> Get_Party()
         {
             return party.Get_Party();
         }
-        
+
         // UI Commands
         public void New()
         {

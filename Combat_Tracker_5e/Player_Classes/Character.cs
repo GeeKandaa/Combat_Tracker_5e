@@ -2,18 +2,48 @@
 
 namespace Combat_Tracker_5e.Player_Classes
 {
-    class Character
+    public class Character
     {
-        private string name;
+        // private vars
+        private string char_name;
         private int initiative;
         private bool stunned = false;
         private bool concentrating = false;
         private int hp;
         private int hp_max;
 
+        //public property
+        public string Char_Name { get { return char_name; } }
+        public string Initiative { get { return initiative.ToString(); } }
+        public string Stunned
+        {
+            get
+            {
+                if (stunned)
+                {
+                    return "1";
+                }
+                else return "0";
+            }
+        }
+        public string Concentrating
+        {
+            get
+            {
+                if (concentrating)
+                {
+                    return "1";
+                }
+                else return "0";
+            }
+        }
+        public string HP { get { return hp.ToString(); } }
+        public string Max_HP { get { return hp_max.ToString(); } }
+
+        //constructor&methods..
         public Character(string Name_str, int Hp_int, int Hp_Max_int = -1)
         {
-            name = Name_str;
+            char_name = Name_str;
             hp = Hp_int;
             if (Hp_Max_int == -1)
             {
@@ -38,11 +68,6 @@ namespace Combat_Tracker_5e.Player_Classes
                 concentrating = false;
             }
             else concentrating = true;
-        }
-
-        public void Set_Initiative(int init)
-        {
-            initiative = init;
         }
 
         public void Heal_Damage(int dmg)

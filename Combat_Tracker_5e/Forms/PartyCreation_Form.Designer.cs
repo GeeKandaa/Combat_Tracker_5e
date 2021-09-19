@@ -29,24 +29,25 @@ namespace Combat_Tracker_5e
         /// </summary>
         private void InitializeComponent()
         {
-            this.nameInput = new Combat_Tracker_5e.Controls.NameInput_TextBox();
+            this.NameInput = new Combat_Tracker_5e.Controls.CustomInput_TextBox();
             this.Btn_Cancel = new Combat_Tracker_5e.Controls.Managed_Button();
             this.Btn_AddChar = new Combat_Tracker_5e.Controls.Managed_Button();
             this.CharList = new Combat_Tracker_5e.Controls.NewPartyList_ListBox();
             this.Btn_RemoveChar = new Combat_Tracker_5e.Controls.Managed_Button();
             this.Btn_Clear = new Combat_Tracker_5e.Controls.Managed_Button();
             this.Btn_Confirm = new Combat_Tracker_5e.Controls.Managed_Button();
+            this.HpInput = new Combat_Tracker_5e.Controls.CustomInput_TextBox();
             this.SuspendLayout();
             // 
-            // nameInput
+            // NameInput
             // 
-            this.nameInput.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.nameInput.Location = new System.Drawing.Point(37, 57);
-            this.nameInput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.nameInput.Name = "nameInput";
-            this.nameInput.Size = new System.Drawing.Size(533, 45);
-            this.nameInput.TabIndex = 9;
-            this.nameInput.TabStop = false;
+            this.NameInput.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.NameInput.Location = new System.Drawing.Point(37, 64);
+            this.NameInput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.NameInput.Name = "NameInput";
+            this.NameInput.Size = new System.Drawing.Size(361, 34);
+            this.NameInput.TabIndex = 9;
+            this.NameInput.TabStop = false;
             // 
             // Btn_Cancel
             // 
@@ -72,7 +73,7 @@ namespace Combat_Tracker_5e
             // 
             this.CharList.FormattingEnabled = true;
             this.CharList.ItemHeight = 25;
-            this.CharList.Location = new System.Drawing.Point(37, 138);
+            this.CharList.Location = new System.Drawing.Point(37, 182);
             this.CharList.Name = "CharList";
             this.CharList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.CharList.Size = new System.Drawing.Size(533, 454);
@@ -82,7 +83,7 @@ namespace Combat_Tracker_5e
             // 
             this.Btn_RemoveChar.Enabled = false;
             this.Btn_RemoveChar.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.Btn_RemoveChar.Location = new System.Drawing.Point(606, 138);
+            this.Btn_RemoveChar.Location = new System.Drawing.Point(606, 182);
             this.Btn_RemoveChar.Name = "Btn_RemoveChar";
             this.Btn_RemoveChar.Size = new System.Drawing.Size(214, 67);
             this.Btn_RemoveChar.TabIndex = 13;
@@ -93,7 +94,7 @@ namespace Combat_Tracker_5e
             // 
             this.Btn_Clear.Enabled = false;
             this.Btn_Clear.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.Btn_Clear.Location = new System.Drawing.Point(606, 237);
+            this.Btn_Clear.Location = new System.Drawing.Point(606, 281);
             this.Btn_Clear.Name = "Btn_Clear";
             this.Btn_Clear.Size = new System.Drawing.Size(214, 67);
             this.Btn_Clear.TabIndex = 14;
@@ -111,19 +112,30 @@ namespace Combat_Tracker_5e
             this.Btn_Confirm.Text = "Confirm Party";
             this.Btn_Confirm.UseVisualStyleBackColor = true;
             // 
+            // HpInput
+            // 
+            this.HpInput.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.HpInput.Location = new System.Drawing.Point(406, 64);
+            this.HpInput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.HpInput.Name = "HpInput";
+            this.HpInput.Size = new System.Drawing.Size(173, 34);
+            this.HpInput.TabIndex = 16;
+            this.HpInput.TabStop = false;
+            // 
             // PartyCreation_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(859, 748);
             this.ControlBox = false;
+            this.Controls.Add(this.HpInput);
             this.Controls.Add(this.Btn_Confirm);
             this.Controls.Add(this.Btn_Clear);
             this.Controls.Add(this.Btn_RemoveChar);
             this.Controls.Add(this.CharList);
             this.Controls.Add(this.Btn_AddChar);
             this.Controls.Add(this.Btn_Cancel);
-            this.Controls.Add(this.nameInput);
+            this.Controls.Add(this.NameInput);
             this.Name = "PartyCreation_Form";
             this.Text = "Form2";
             this.ResumeLayout(false);
@@ -132,12 +144,13 @@ namespace Combat_Tracker_5e
         }
 
         #endregion
-        private Controls.NameInput_TextBox nameInput;
+        private Controls.CustomInput_TextBox NameInput;
         private Controls.Managed_Button Btn_Cancel;
         private Controls.Managed_Button Btn_AddChar;
         private Controls.NewPartyList_ListBox CharList;
         private Controls.Managed_Button Btn_RemoveChar;
         private Controls.Managed_Button Btn_Clear;
         private Controls.Managed_Button Btn_Confirm;
+        private Controls.CustomInput_TextBox HpInput;
     }
 }
