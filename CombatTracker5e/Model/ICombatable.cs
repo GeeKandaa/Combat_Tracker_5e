@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace CombatTracker5e.Model
 {
-    interface ICombatable
+    public interface ICombatable
     {
+        public string Status { get; }
+        public string Name { get; }
+        public string Hp { get; }
+        public string Initiative { get; }
+        public bool Stunned { get; }
+        public bool Concentrating { get; }
+
         public void TakeDamage(int dmg) { }
         public void HealDamage(int dmg) { }
         public void SetInitiative() { }

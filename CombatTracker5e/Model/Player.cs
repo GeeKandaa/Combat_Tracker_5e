@@ -6,20 +6,34 @@ using System.Threading.Tasks;
 
 namespace CombatTracker5e.Model
 {
-    class Player
+    class Player : ICombatable
     {
         public string Name { get; }
-        public string MaxHp { get; private set; }
-        private int _MaxHp;
-        public string CurrentHp { get; private set; }
         private int _CurrentHp;
-        public string Initiative { get; private set; }
+        private int _MaxHp;
+        public string Hp 
+        { 
+            get 
+            {
+                ValidateHp();
+                return _CurrentHp.ToString()+"/"+ _MaxHp.ToString(); 
+            }
+        }
+        public string Initiative { get { return _Initiative.ToString(); }}
         private int _Initiative;
-        public string Stunned { get; private set; }
+        public bool Stunned { get { return _Stunned; }}
         private bool _Stunned;
-        public string Concentrating { get; private set; }
+        public bool Concentrating { get { return _Concentrating; }}
         private bool _Concentrating;
-
+        public string Status 
+        { 
+            get 
+            {
+                if (_Status) return "Active";
+                return ""; 
+            }
+        }
+        private bool _Status;
         public Player(string name, int currentHp, int maxHp)
         {
             Name = name;
@@ -27,8 +41,14 @@ namespace CombatTracker5e.Model
             _MaxHp = maxHp;
             _Stunned = false;
             _Concentrating = false;
+            _Status = false;
         }
-
-
+        private void ValidateHp() 
+        {
+            if (_MaxHp < 0) _MaxHp = 0;
+            _CurrentHp = Math.Abs(_CurrentHp);
+            if (_CurrentHp > _MaxHp) _CurrentHp = _MaxHp;
+            
+        }
     }
 }
