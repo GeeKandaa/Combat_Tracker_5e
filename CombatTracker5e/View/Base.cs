@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using CombatTracker5e.Dialog;
-using CombatTracker5e.Controller;
+using CombatTracker5e.Dialogs;
 using CombatTracker5e.View;
+using System.Collections.Generic;
+using CombatTracker5e.Controller;
+
 namespace CombatTracker5e
 {
     public partial class Base : Form
@@ -13,35 +15,144 @@ namespace CombatTracker5e
         {
             InitializeComponent();
             BaseController.Instance.EnsureAutosaveFileIsValid();
-            Panel displayPanel = new Panel();
+
+            Panel displayPanel = new();
             displayPanel.Dock = DockStyle.Left;
             displayPanel.Width = (int)Math.Floor(Width*0.6);
 
-            combatentDisplay = new(this);
+            combatentDisplay = new();
             displayPanel.Controls.Add(combatentDisplay);
             Controls.Add(displayPanel);
 
-            displayPanel = new Panel();
+            displayPanel = new();
             displayPanel.Dock = DockStyle.Right;
             displayPanel.Width = (int)Math.Floor(Width * 0.4);
-            displayPanel.BackColor = Color.Red;
+
+            Button btn = new();
+            btn.Name = "btn_AddPlayer";
+            btn.Text = "Add Player";
+            btn.Click += HandleButtonClick;
+            displayPanel.Controls.Add(btn);
+
+            btn = new();
+            btn.Name = "btn_AddNPC";
+            btn.Text = "Add NPC";
+            btn.Click += HandleButtonClick;
+            displayPanel.Controls.Add(btn);
+
+            btn = new();
+            btn.Name = "btn_LoadDialog_Load";
+            btn.Text = "Load Party";
+            btn.Click += HandleButtonClick;
+            displayPanel.Controls.Add(btn);
+
+            btn = new();
+            btn.Name = "btn_SaveDialog_Save";
+            btn.Text = "Save Party";
+            btn.Click += HandleButtonClick;
+            displayPanel.Controls.Add(btn);
+
+            btn = new();
+            btn.Name = "btn_Combat";
+            btn.Text = "Start Combat";
+            btn.Click += HandleButtonClick;
+            displayPanel.Controls.Add(btn);
+
+            btn = new();
+            btn.Name = "btn_Char_Flee";
+            btn.Text = "Flee";
+            btn.Click += HandleButtonClick;
+            displayPanel.Controls.Add(btn);
+
+            btn = new();
+            btn.Name = "btn_Char_Damage";
+            btn.Text = "Damage";
+            btn.Click += HandleButtonClick;
+            displayPanel.Controls.Add(btn);
+
+            btn = new();
+            btn.Name = "btn_Char_Heal";
+            btn.Text = "Heal";
+            btn.Click += HandleButtonClick;
+            displayPanel.Controls.Add(btn);
+
+            btn = new();
+            btn.Name = "btn_Char_Stun";
+            btn.Text = "Stun";
+            btn.Click += HandleButtonClick;
+            displayPanel.Controls.Add(btn);
+
+            btn = new();
+            btn.Name = "btn_Char_Concentrating";
+            btn.Text = "Concentrate";
+            btn.Click += HandleButtonClick;
+            displayPanel.Controls.Add(btn);
+
             Controls.Add(displayPanel);
 
+            int btnHeight = (displayPanel.Height-30) / (displayPanel.Controls.Count / 2);
+            int btnWidth = (displayPanel.Width-45) / 2;
+            for (int i = 0; i < displayPanel.Controls.Count; i++)
+            {
+                displayPanel.Controls[i].Height = btnHeight;
+                displayPanel.Controls[i].Width = btnWidth;
+                displayPanel.Controls[i].Location = new Point(((i % 2) * btnWidth)+30, ((int)Math.Floor(i / 2.0)*btnHeight)+15);
+            }
         }
-        private string ActionFromString(string cmd)
+
+        private string[] ActionFromString(string cmd)
         {
-            return cmd[6..]; 
+            string[] commands = cmd.Split('_');
+            if (commands.Length > 2)
+            {
+                switch (commands[1])
+                {
+                    case "LoadDialog":
+                        string path = Dialogs.Load.Show();
+                        if(path!="") return new string[] { commands[2], path };
+                        return new string[] { "", "" };
+                    case "Char":
+                        return new string[] { commands[2], GetSelectedRows() };
+                }
+                return new string[] { commands[1],commands[2] };
+            }
+            return new string[] { commands[1], "" };
         }
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            Point? pnt = null;
-            UserChooseStartup.Result res = UserChooseStartup.Show(pnt);
+            UserChooseStartup.Result res = UserChooseStartup.Show();
             if (res.action == null) Application.Exit();
-            else BaseController.Instance.HandleAction(res.action,res.path);
-            BaseController.Instance.SyncDisplayData(combatentDisplay);
+            else
+            {
+                BaseController.Instance.RegisterDisplay(combatentDisplay);
+                BaseController.Instance.HandleAction(res.action, res.path);
+            }
+            
             return;
         }
-
+        private string GetSelectedRows()
+        {
+            DataGridViewSelectedRowCollection selectedRows = combatentDisplay.SelectedRows;
+            int[] orderedRows = new int[selectedRows.Count];
+            for (int i=0;i<selectedRows.Count;i++)
+            {
+               orderedRows[i] += selectedRows[i].Index;
+            }
+            Array.Sort(orderedRows);
+            string selected = "";
+            foreach (int i in orderedRows)
+            {
+                selected += i.ToString() + ',';
+            }
+            return selected[..(selected.Length-1)];
+        }
+        private void HandleButtonClick(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string[] action = ActionFromString(btn.Name);
+            BaseController.Instance.HandleAction(action[0],action[1]);
+        }
     }
 }

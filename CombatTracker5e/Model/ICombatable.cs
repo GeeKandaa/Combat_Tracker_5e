@@ -13,11 +13,16 @@ namespace CombatTracker5e.Model
         public string Hp { get; }
         public string Initiative { get; }
         public bool Stunned { get; }
-        public bool Concentrating { get; }
+        public bool Concentrating { get; set; }
 
         public void TakeDamage(int dmg) { }
         public void HealDamage(int dmg) { }
         public void SetInitiative() { }
-        public void RemoveCharacter() { }
+        public void FlipConcentrating()
+        {
+            Concentrating = !Concentrating;
+        }
+        public void FlipStun() { }
+        public void Flee() { }
     }
 }

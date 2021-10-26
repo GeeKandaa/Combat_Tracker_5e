@@ -21,9 +21,16 @@ namespace CombatTracker5e.Model
         }
         public string Initiative { get { return _Initiative.ToString(); }}
         private int _Initiative;
-        public bool Stunned { get { return _Stunned; }}
+        public bool Stunned 
+        { 
+            get { return _Stunned; }
+        }
         private bool _Stunned;
-        public bool Concentrating { get { return _Concentrating; }}
+        public bool Concentrating 
+        {
+            get { return _Concentrating; }
+            set { _Concentrating = value; }
+        }
         private bool _Concentrating;
         public string Status 
         { 
@@ -46,9 +53,20 @@ namespace CombatTracker5e.Model
         private void ValidateHp() 
         {
             if (_MaxHp < 0) _MaxHp = 0;
-            _CurrentHp = Math.Abs(_CurrentHp);
+            if (_CurrentHp < -_MaxHp) _CurrentHp = -_MaxHp;
             if (_CurrentHp > _MaxHp) _CurrentHp = _MaxHp;
-            
+        }
+        public void TakeDamage(int dmg)
+        {
+            _CurrentHp -= dmg;
+        }
+        public void HealDamage(int dmg)
+        {
+            _CurrentHp += dmg;
+        }
+        public void FlipStun()
+        {
+            _Stunned = !_Stunned;
         }
     }
 }

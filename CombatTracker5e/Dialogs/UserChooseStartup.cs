@@ -4,49 +4,48 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CombatTracker5e.Dialog
+namespace CombatTracker5e.Dialogs
 {
     class UserChooseStartup : Form
     {
-        protected Button buttonAuto;
-        protected Button buttonNew;
-        protected Button buttonLoad;
-        protected List<Button> buttons;
-        protected Label labelPrompt;
+        protected Button ButtonAuto;
+        protected Button ButtonNew;
+        protected Button ButtonLoad;
+        protected List<Button> Buttons;
+        protected Label LabelPrompt;
         protected Result UserChoice = new();
-        protected ErrorProvider errorProviderText;
         private readonly System.ComponentModel.Container components = null;
         private UserChooseStartup()
         {
-            Size formSize = new(700, 300);
+            Size FormSize = new(700, 300);
 
             // Text
-            labelPrompt = new();
-            labelPrompt.AutoSize = true;
-            labelPrompt.Location = new Point(15, 15);
-            labelPrompt.Text = "prompt";
+            LabelPrompt = new();
+            LabelPrompt.AutoSize = true;
+            LabelPrompt.Location = new Point(15, 15);
+            LabelPrompt.Text = "prompt";
 
             // Buttons
-            buttonNew = new();
-            buttonNew.Name = "buttonNew";
-            buttonNew.Text = "New Party";
-            buttonNew.Click += new EventHandler((sender, e) => NewButtonClick(sender, e, "New"));
-            buttonAuto = new();
-            buttonAuto.Name = "buttonAuto";
-            buttonAuto.Text = "Load Autosave";
-            buttonAuto.Click += new EventHandler((sender, e) => AutoButtonClick(sender, e, "Auto"));
-            buttonLoad = new();
-            buttonLoad.Name = "buttonLoad";
-            buttonLoad.Text = "Load Party..";
-            buttonLoad.Click += new EventHandler((sender, e) => LoadButtonClick(sender, e, "Load"));
-            buttons = new() { buttonNew, buttonAuto, buttonLoad };
+            ButtonNew = new();
+            ButtonNew.Name = "buttonNew";
+            ButtonNew.Text = "New Party";
+            ButtonNew.Click += new EventHandler((sender, e) => NewButtonClick(sender, e, "New"));
+            
+            ButtonAuto = new();
+            ButtonAuto.Name = "buttonAuto";
+            ButtonAuto.Text = "Load Autosave";
+            ButtonAuto.Click += new EventHandler((sender, e) => AutoButtonClick(sender, e, "Auto"));
+            
+            ButtonLoad = new();
+            ButtonLoad.Name = "buttonLoad";
+            ButtonLoad.Text = "Load Party..";
+            ButtonLoad.Click += new EventHandler((sender, e) => LoadButtonClick(sender, e, "Load"));
+            Buttons = new() { ButtonNew, ButtonAuto, ButtonLoad };
 
-            errorProviderText = new();
-
-            for (int i = 0; i < buttons.Count; i++)
+            for (int i = 0; i < Buttons.Count; i++)
             {
-                if (i > 1) buttons[i].DialogResult = DialogResult.None;
-                buttons[i].TabIndex = i;
+                if (i > 1) Buttons[i].DialogResult = DialogResult.None;
+                Buttons[i].TabIndex = i;
             }
 
             Name = "UserChooseStartupDialog";
@@ -55,27 +54,27 @@ namespace CombatTracker5e.Dialog
             MaximizeBox = false;
             MinimizeBox = false;
             AutoScaleMode = AutoScaleMode.Dpi;
-            ClientSize = formSize;
+            ClientSize = FormSize;
 
-            for (int i = 0; i < buttons.Count; i++)
+            for (int i = 0; i < Buttons.Count; i++)
             {
                 int margin = 50;
-                buttons[i].Size = new Size(formSize.Width / (buttons.Count + 2), 50);
+                Buttons[i].Size = new Size(FormSize.Width / (Buttons.Count + 2), 50);
 
-                int leftLocation = (i + 1) * (formSize.Width / (buttons.Count + 2)) - ((buttons.Count - 1) * margin) / 2;
-                int topLocation = formSize.Height - ((3 * buttons[i].Height) / 2);
+                int leftLocation = (i + 1) * (FormSize.Width / (Buttons.Count + 2)) - ((Buttons.Count - 1) * margin) / 2;
+                int topLocation = FormSize.Height - ((3 * Buttons[i].Height) / 2);
 
-                buttons[i].Location = new Point(leftLocation + i * margin, topLocation);
+                Buttons[i].Location = new Point(leftLocation + i * margin, topLocation);
             }
 
             Controls.AddRange
             (
                 new Control[]
                 {
-                    labelPrompt,
-                    buttonNew,
-                    buttonAuto,
-                    buttonLoad
+                    LabelPrompt,
+                    ButtonNew,
+                    ButtonAuto,
+                    ButtonLoad
                 }
             );
         }
@@ -94,14 +93,11 @@ namespace CombatTracker5e.Dialog
 
             using (OpenFileDialog dialog = new())
             {
-                dialog.InitialDirectory = BaseController.Instance.AutoSaveDirectory;
-                dialog.Filter = "Text files (*.txt)|*.txt";
-                dialog.RestoreDirectory = true;
-
-                if(dialog.ShowDialog() == DialogResult.OK)
+                string path = Dialogs.Load.Show();
+                if(path!=string.Empty)
                 {
                     UserChoice.action = buttonName;
-                    UserChoice.path = dialog.FileName;
+                    UserChoice.path = path;
                     this.Close();
                 }
             }
@@ -149,22 +145,18 @@ namespace CombatTracker5e.Dialog
             }
             base.Dispose(disposing);
         }
-        public static Result Show(Point? spawnLocation)
+        public static new Result Show()
         {
             using UserChooseStartup form = new();
             form.Text = "Choose Party";
             string autofile = BaseController.Instance.AutoSaveFile;
-            form.labelPrompt.Text = $"Please choose how to start the program:\n\n The current autosaved file is located at:\n  {autofile}";
-            if (spawnLocation == null)
-            {
-                form.StartPosition = FormStartPosition.CenterParent;
-            }
-
+            form.LabelPrompt.Text = $"Please choose how to start the program:\n\n The current autosaved file is located at:\n  {autofile}";
+            form.StartPosition = FormStartPosition.CenterParent;
             form.ShowDialog();
 
             return form.UserChoice;
         }
-         public class Result
+        public class Result
         {
             public string action;
             public string path;

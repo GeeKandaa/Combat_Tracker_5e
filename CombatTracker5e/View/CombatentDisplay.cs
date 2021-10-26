@@ -12,12 +12,9 @@ namespace CombatTracker5e.View
 {
     public partial class CombatentDisplay : DataGridView
     {
-        Control ParentControl;
-
-        public CombatentDisplay(Control parentControl)
+        public CombatentDisplay()
         {
             InitializeComponent();
-            ParentControl = parentControl;
 
             Dock = DockStyle.Fill;
 
@@ -44,7 +41,7 @@ namespace CombatTracker5e.View
             Columns.Add(column);
 
             column = new DataGridViewTextBoxColumn();
-            column.DataPropertyName = "HP";
+            column.DataPropertyName = "Hp";
             column.Name = "    HP    ";
             column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             Columns.Add(column);
