@@ -78,6 +78,37 @@ namespace Combat_Tracker_5e.Controls
             Update_Display();
         }
 
+        public void Damage_Selected(int dmg)
+        {
+            List<int> damaged_i = Get_Selected();
+            damaged_i.Sort();
+            damaged_i.Reverse();
+            foreach (int i in damaged_i)
+            {
+                if (!(characters[i].Survive_Damage(dmg)) && !(Manager.Instance.Get_Party().Contains(characters[i])))
+                {
+                    characters.RemoveAt(i);
+                    this.Rows.RemoveAt(i);
+                }
+            }
+            Update_Display();
+            this.CurrentCell = null;
+        }
+
+        public void Heal_Selected(int dmg)
+        {
+            List<int> damaged_i = Get_Selected();
+            damaged_i.Sort();
+            damaged_i.Reverse();
+            foreach (int i in damaged_i)
+            {
+                characters[i].Heal_Damage(dmg);
+            }
+            Update_Display();
+            this.CurrentCell = null;
+        }
+
+
         public void Remove_NPC()
         {
             List<int> removal_i = Get_Selected();

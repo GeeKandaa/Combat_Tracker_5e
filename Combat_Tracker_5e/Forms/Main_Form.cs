@@ -16,6 +16,7 @@ namespace Combat_Tracker_5e
 
         public override bool Handle_Action(string action)
         {
+            InputBoxResult result;
             switch (action)
             {
                 case "NewParty":
@@ -38,7 +39,18 @@ namespace Combat_Tracker_5e
                     combatDisplay_DataGridView1.Add_NPC(new_npc);
                     return true;
                 case "Damage":
-                    
+                    result = InputBox.Show("", "Damage", "Default text", null);
+                        if (result.OK)
+                        {
+                            combatDisplay_DataGridView1.Damage_Selected(Convert.ToInt32(result.Text));
+                        }
+                    return true;
+                case "Heal":
+                    result = InputBox.Show("", "Damage", "Default text", null);
+                    if (result.OK)
+                    {
+                        combatDisplay_DataGridView1.Heal_Selected(Convert.ToInt32(result.Text));
+                    }
                     return true;
                 case "Flee":
                     combatDisplay_DataGridView1.Remove_NPC();
