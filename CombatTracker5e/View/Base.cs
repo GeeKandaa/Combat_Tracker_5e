@@ -10,7 +10,7 @@ namespace CombatTracker5e
 {
     public partial class Base : Form
     {
-        CombatentDisplay combatentDisplay;
+        readonly CombatentDisplay combatentDisplay;
         public Base()
         {
             InitializeComponent();
@@ -29,13 +29,13 @@ namespace CombatTracker5e
             displayPanel.Width = (int)Math.Floor(Width * 0.4);
 
             Button btn = new();
-            btn.Name = "btn_AddPlayer";
+            btn.Name = "btn_Player_New";
             btn.Text = "Add Player";
             btn.Click += HandleButtonClick;
             displayPanel.Controls.Add(btn);
 
             btn = new();
-            btn.Name = "btn_AddNPC";
+            btn.Name = "btn_NPC_New";
             btn.Text = "Add NPC";
             btn.Click += HandleButtonClick;
             displayPanel.Controls.Add(btn);
@@ -107,14 +107,21 @@ namespace CombatTracker5e
             {
                 switch (commands[1])
                 {
+                    case "SaveDialog":
+                        string savepath = Dialogs.Save.Show();
+                        if (savepath != "") return new string[] { commands[2], savepath };
+                        return new string[] { "", "" };
                     case "LoadDialog":
-                        string path = Dialogs.Load.Show();
-                        if(path!="") return new string[] { commands[2], path };
+                        string loadpath = Dialogs.Load.Show();
+                        if(loadpath!="") return new string[] { commands[2], loadpath };
                         return new string[] { "", "" };
                     case "Char":
+                        if (combatentDisplay.Rows[0].Cells[1].Value == null) break;
                         return new string[] { commands[2], GetSelectedRows() };
+                    case "Player" or "NPC":
+                        return new string[] { commands[2], commands[1] };
                 }
-                return new string[] { commands[1],commands[2] };
+                return new string[] { "stop", "" };
             }
             return new string[] { commands[1], "" };
         }
@@ -152,7 +159,7 @@ namespace CombatTracker5e
         {
             Button btn = (Button)sender;
             string[] action = ActionFromString(btn.Name);
-            BaseController.Instance.HandleAction(action[0],action[1]);
+            if (action[0]!="stop") BaseController.Instance.HandleAction(action[0],action[1]);
         }
     }
 }

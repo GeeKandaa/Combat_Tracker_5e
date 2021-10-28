@@ -28,4 +28,25 @@ namespace CombatTracker5e.Dialogs
             return string.Empty;
         }
     }
+
+    class Save
+    {
+        public static string Show()
+        {
+            string path;
+            using (SaveFileDialog dialog = new())
+            {
+                dialog.InitialDirectory = BaseController.Instance.AutoSaveDirectory;
+                dialog.Filter = "Text files (*.txt)|*.txt";
+                dialog.RestoreDirectory = true;
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    path = dialog.FileName;
+                    return path;
+                }
+            }
+            return string.Empty;
+        }
+    }
 }

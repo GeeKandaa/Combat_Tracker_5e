@@ -63,10 +63,22 @@ namespace CombatTracker5e.Controller
                     Combatents.Instance.LoadFromFile(arg);
                     SyncDisplayData();
                     break;
+                case "Save":
+                    Combatents.Instance.SaveToFile(arg);
+                    break;
                 case "New":
+                    Dialogs.NewCharacterDialog.Result res = new();
+                    while (res.MissingStat)
+                    {
+                        res = Dialogs.NewCharacterDialog.Show(arg,res.Name,res.Hp,res.MaxHp);
+                        if (res.Cancel) return;
+                    }
+                    Combatents.Instance.AddCombatent(arg,res);
+                    Display.DataSource = Combatents.Instance.GetBinding();
                     break;
                 case "Damage":
                     Combatents.Instance.DamagePlayers(arg);
+                    Display.DataSource = Combatents.Instance.GetBinding();
                     break;
                 case "Heal":
                     Combatents.Instance.HealPlayers(arg);
@@ -79,6 +91,7 @@ namespace CombatTracker5e.Controller
                     break;
                 case "Flee":
                     Combatents.Instance.PlayersFlee(arg);
+                    Display.DataSource = Combatents.Instance.GetBinding();
                     break;
                 default:
                     break;

@@ -91,15 +91,13 @@ namespace CombatTracker5e.Dialogs
                 throw new ArgumentNullException(nameof(e));
             }
 
-            using (OpenFileDialog dialog = new())
+            using OpenFileDialog dialog = new();
+            string path = Dialogs.Load.Show();
+            if (path != string.Empty)
             {
-                string path = Dialogs.Load.Show();
-                if(path!=string.Empty)
-                {
-                    UserChoice.action = buttonName;
-                    UserChoice.path = path;
-                    this.Close();
-                }
+                UserChoice.action = buttonName;
+                UserChoice.path = path;
+                this.Close();
             }
         }
         private void AutoButtonClick(object sender, EventArgs e, string buttonName)
@@ -131,7 +129,7 @@ namespace CombatTracker5e.Dialogs
             }
 
             UserChoice.action = buttonName;
-            UserChoice.path = null;
+            UserChoice.path = "Player";
             this.Close();
         }
         protected override void Dispose(bool disposing)

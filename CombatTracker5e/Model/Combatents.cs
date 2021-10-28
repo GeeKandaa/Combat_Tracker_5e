@@ -11,9 +11,25 @@ namespace CombatTracker5e.Model
     {
         private Combatents() { }
         public static Combatents Instance { get; private set; } = new();
-        
-        public List<ICombatable> AllCombatents = new();
 
+        public List<Character> AllCombatents = new();
+        private readonly List<Character> PlayerCombatents = new();
+        private readonly List<Character> NpcCombatents = new();
+
+        public void SaveToFile(string path)
+        {
+            using StreamWriter sw = new(path);
+            sw.WriteLine("#PLAYER");
+            foreach (Character player in PlayerCombatents)
+            {
+                sw.WriteLine(player.Name + "," + player.HpCsv.ToString());
+            }
+            sw.WriteLine("#NPC");
+            foreach (Character npc in NpcCombatents)
+            {
+                sw.WriteLine(npc.Name + "," + npc.HpCsv.ToString());
+            }
+        }
         /// <summary>
         /// Reads information from a saved text file to generate Players and NPCs.
         /// </summary>
@@ -21,31 +37,59 @@ namespace CombatTracker5e.Model
         public void LoadFromFile(string path)
         {
             AllCombatents.Clear();
-            using (StreamReader sr = new(path))
+            PlayerCombatents.Clear();
+            NpcCombatents.Clear();
+            using StreamReader sr = new(path);
+            string type = "";
+            string line;
+            while ((line = sr.ReadLine()) != null)
             {
-                string type="";
-                string line;
-                while ((line = sr.ReadLine()) != null)
+                if (line[0] == '#')
                 {
-                    if (line[0] == '#')
-                    {
-                        type = line.Substring(1, line.Length - 1);
-                        continue;
-                    }
-                    string[] CharacterData = line.Split(",");
-                    if (type == "PLAYER")
-                    {
-                        AllCombatents.Add
-                        (
-                            new Player
-                            (
-                                CharacterData[0],
-                                Convert.ToInt32(CharacterData[1]),
-                                Convert.ToInt32(CharacterData[2])
-                            )
-                        );
-                    }
+                    type = line[1..];
+                    continue;
                 }
+                string[] CharacterData = line.Split(",");
+                if (type == "PLAYER")
+                {
+                    PlayerCombatents.Add
+                    (
+                        new Character
+                        (
+                            CharacterData[0],
+                            Convert.ToInt32(CharacterData[1]),
+                            Convert.ToInt32(CharacterData[2]),
+                            "Player"
+                        )
+                    );
+                }
+                if (type == "NPC")
+                {
+                    NpcCombatents.Add
+                    (
+                        new Character
+                        (
+                            CharacterData[0],
+                            Convert.ToInt32(CharacterData[1]),
+                            Convert.ToInt32(CharacterData[2]),
+                            "NPC"
+                        )
+                    );
+                }
+            }
+            ComposeAllCombatents();
+        }
+
+        private void ComposeAllCombatents()
+        {
+            AllCombatents.Clear();
+            foreach(Character player in PlayerCombatents)
+            {
+                AllCombatents.Add(player);
+            }
+            foreach(Character npc in NpcCombatents)
+            {
+                AllCombatents.Add(npc);
             }
         }
 
@@ -56,7 +100,7 @@ namespace CombatTracker5e.Model
         public BindingSource GetBinding() 
         {
             BindingSource BindSource = new();
-            foreach (ICombatable combatent in AllCombatents)
+            foreach (Character combatent in AllCombatents)
             {
                 BindSource.Add(combatent);
             }
@@ -84,7 +128,7 @@ namespace CombatTracker5e.Model
         public void PerformActionOnSelected(string playerIds, string title, string prompt, string combatentAction) 
         {
             int[] playerId = Array.ConvertAll(playerIds.Split(','), int.Parse);
-            int[] values = new int[] { };
+            int[] values = Array.Empty<int>();
             if (combatentAction == "Damage" || combatentAction == "Heal")
             {
                 string[] dialogText = new string[] { title, prompt, combatentAction };
@@ -196,6 +240,21 @@ namespace CombatTracker5e.Model
         public void PlayersFlee(string playerIds)
         {
             PerformActionOnSelected(playerIds, "Flee");
+        }
+
+        public void RemoveCharacter(Character fleeingCharacter)
+        {
+            if (fleeingCharacter.Type == "Player") PlayerCombatents.Remove(fleeingCharacter);
+            else if (fleeingCharacter.Type == "NPC") NpcCombatents.Remove(fleeingCharacter);
+            ComposeAllCombatents();
+        }
+
+        public void AddCombatent(string type, Dialogs.NewCharacterDialog.Result res)
+        {
+            Character newChar = new(res.Name, res.Hp, res.MaxHp, type);
+            if (type == "Player") PlayerCombatents.Add(newChar);
+            else if (type == "NPC") NpcCombatents.Add(newChar);
+            ComposeAllCombatents();
         }
     }
 }

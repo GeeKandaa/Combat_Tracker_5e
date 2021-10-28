@@ -6,51 +6,63 @@ using System.Threading.Tasks;
 
 namespace CombatTracker5e.Model
 {
-    class Player : ICombatable
+    public class Character
     {
         public string Name { get; }
+        public string Type { get { return _type; } }
+        private readonly string _type;
         private int _CurrentHp;
         private int _MaxHp;
-        public string Hp 
-        { 
-            get 
+        public string HpCsv
+        {
+            get
             {
                 ValidateHp();
-                return _CurrentHp.ToString()+"/"+ _MaxHp.ToString(); 
+                return _CurrentHp.ToString() + "," + _MaxHp.ToString();
             }
         }
-        public string Initiative { get { return _Initiative.ToString(); }}
-        private int _Initiative;
-        public bool Stunned 
-        { 
+        public string Hp
+        {
+            get
+            {
+                ValidateHp();
+                return _CurrentHp.ToString() + "/" + _MaxHp.ToString();
+            }
+        }
+        public string Initiative { get { return _Initiative.ToString(); } }
+        private readonly int _Initiative;
+        public bool Stunned
+        {
             get { return _Stunned; }
+            set { _Stunned = value; }
         }
         private bool _Stunned;
-        public bool Concentrating 
+        public bool Concentrating
         {
             get { return _Concentrating; }
             set { _Concentrating = value; }
         }
         private bool _Concentrating;
-        public string Status 
-        { 
-            get 
+        public string Status
+        {
+            get
             {
                 if (_Status) return "Active";
-                return ""; 
+                return "";
             }
         }
-        private bool _Status;
-        public Player(string name, int currentHp, int maxHp)
+        private readonly bool _Status;
+        public Character(string name, int currentHp, int maxHp, string type)
         {
             Name = name;
+            _type = type;
             _CurrentHp = currentHp;
             _MaxHp = maxHp;
             _Stunned = false;
             _Concentrating = false;
             _Status = false;
         }
-        private void ValidateHp() 
+        private void ValidateHp()
         {
             if (_MaxHp < 0) _MaxHp = 0;
             if (_CurrentHp < -_MaxHp) _CurrentHp = -_MaxHp;
@@ -59,14 +71,23 @@ namespace CombatTracker5e.Model
         public void TakeDamage(int dmg)
         {
             _CurrentHp -= dmg;
+            if (Type == "NPC" && _CurrentHp <= 0) Flee();
         }
         public void HealDamage(int dmg)
         {
             _CurrentHp += dmg;
         }
+        public void FlipConcentrating()
+        {
+            Concentrating = !Concentrating;
+        }
         public void FlipStun()
         {
-            _Stunned = !_Stunned;
+            Stunned = !Stunned;
+        }
+        public void Flee()
+        {
+            Combatents.Instance.RemoveCharacter(this);
         }
     }
 }

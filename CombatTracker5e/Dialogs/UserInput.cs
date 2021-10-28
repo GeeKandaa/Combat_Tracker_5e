@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace CombatTracker5e.Dialogs
 {
-    public partial class UserInput : Form
+    class UserInput : Form
     {
         protected Button ButtonOK;
         protected Button ButtonCancel;
