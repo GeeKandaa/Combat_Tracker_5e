@@ -13,11 +13,29 @@ namespace CombatTracker5e.Controller
 {
     public class BaseController
     {
+        /// <summary>
+        /// Displays combatents
+        /// </summary>
         CombatentDisplay Display;
+
+        /// <summary>
+        /// Private constructor following singleton pattern
+        /// </summary>
         private BaseController() { }
+
+        /// <summary>
+        /// Signleton instance
+        /// </summary>
         public static BaseController Instance { get; private set; } = new();
 
+        /// <summary>
+        /// Default path to save directory
+        /// </summary>
         public readonly string AutoSaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CombatTracker5e\\";
+        
+        /// <summary>
+        /// Path to autosave file
+        /// </summary>
         public string AutoSaveFile { get; private set; }
 
         /// <summary>
@@ -31,6 +49,10 @@ namespace CombatTracker5e.Controller
             VerifyAutoSaveFile(path);
         }
 
+        /// <summary>
+        /// Ensures log.auto contain a valid filepath to autosaved file, otherwise generates default file.
+        /// </summary>
+        /// <param name="path">String path to check validity</param>
         private void VerifyAutoSaveFile(string path)
         {
             FileStream fs = new(path, FileMode.OpenOrCreate);

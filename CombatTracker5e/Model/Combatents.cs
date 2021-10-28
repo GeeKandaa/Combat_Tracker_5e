@@ -9,13 +9,35 @@ namespace CombatTracker5e.Model
 {
     public class Combatents
     {
+        /// <summary>
+        /// Private constructor to follow singleton pattern.
+        /// </summary>
         private Combatents() { }
-        public static Combatents Instance { get; private set; } = new();
 
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>
+        public static Combatents Instance { get; private set; } = new();
+        
+        /// <summary>
+        /// Contains all characters regardless of type
+        /// </summary>
         public List<Character> AllCombatents = new();
+
+        /// <summary>
+        /// Contains player type characters
+        /// </summary>
         private readonly List<Character> PlayerCombatents = new();
+        
+        /// <summary>
+        /// Contains NPC type characters
+        /// </summary>
         private readonly List<Character> NpcCombatents = new();
 
+        /// <summary>
+        /// Writes current characters to file.
+        /// </summary>
+        /// <param name="path">string indicating file path to write to</param>
         public void SaveToFile(string path)
         {
             using StreamWriter sw = new(path);
@@ -30,6 +52,7 @@ namespace CombatTracker5e.Model
                 sw.WriteLine(npc.Name + "," + npc.HpCsv.ToString());
             }
         }
+
         /// <summary>
         /// Reads information from a saved text file to generate Players and NPCs.
         /// </summary>
@@ -80,6 +103,9 @@ namespace CombatTracker5e.Model
             ComposeAllCombatents();
         }
 
+        /// <summary>
+        /// Repopulates combatent list.
+        /// </summary>
         private void ComposeAllCombatents()
         {
             AllCombatents.Clear();
@@ -185,6 +211,7 @@ namespace CombatTracker5e.Model
             }
             return values;
         }
+
         /// <summary>
         /// Passes default values to PerformActionOnSelected for Damage action.
         /// </summary>
@@ -242,6 +269,10 @@ namespace CombatTracker5e.Model
             PerformActionOnSelected(playerIds, "Flee");
         }
 
+        /// <summary>
+        /// Removes character from appropriate type list and from databinding list
+        /// </summary>
+        /// <param name="fleeingCharacter">Character to be removed</param>
         public void RemoveCharacter(Character fleeingCharacter)
         {
             if (fleeingCharacter.Type == "Player") PlayerCombatents.Remove(fleeingCharacter);
@@ -249,6 +280,11 @@ namespace CombatTracker5e.Model
             ComposeAllCombatents();
         }
 
+        /// <summary>
+        /// Generate player of specified type and populates appropriate list and databinding list
+        /// </summary>
+        /// <param name="type">Character type</param>
+        /// <param name="res">NewCharacterDialog Result containing character data</param>
         public void AddCombatent(string type, Dialogs.NewCharacterDialog.Result res)
         {
             Character newChar = new(res.Name, res.Hp, res.MaxHp, type);

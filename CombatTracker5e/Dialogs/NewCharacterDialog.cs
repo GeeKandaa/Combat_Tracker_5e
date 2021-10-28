@@ -13,12 +13,39 @@ namespace CombatTracker5e.Dialogs
 {
     public class NewCharacterDialog : Form
     {
+        /// <summary>
+        /// Confirm button; Processes data and initiates character creation
+        /// </summary>
         protected Button ButtonCreate;
+
+        /// <summary>
+        /// Cancel button; Cancels character creation
+        /// </summary>
         protected Button ButtonCancel;
+
+        /// <summary>
+        /// User Input: Character name
+        /// </summary>
         protected TextBox InputName;
+
+        /// <summary>
+        /// User Input: Character HP
+        /// </summary>
         protected TextBox InputCurrentHp;
+
+        /// <summary>
+        /// User Input: Character Max HP
+        /// </summary>
         protected TextBox InputMaxHp;
+
+        /// <summary>
+        /// Components of form. Required.
+        /// </summary>
         private readonly System.ComponentModel.Container components = null;
+
+        /// <summary>
+        /// Constructor, initialises form.
+        /// </summary>
         public NewCharacterDialog()
         {
             ClientSize = new(365, 200);
@@ -95,6 +122,11 @@ namespace CombatTracker5e.Dialogs
             ButtonCancel.Location = new Point(container.Right - ButtonCreate.Width - container.Width * locationSpecifier - 15, container.Height / 2 - ButtonCreate.Height / 2);
 
         }
+
+        /// <summary>
+        /// Disposing method. Required.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -106,6 +138,12 @@ namespace CombatTracker5e.Dialogs
             }
             base.Dispose(disposing);
         }
+
+        /// <summary>
+        /// Ensures characters can not be typed other than numeric. Controls are accepted to allow backspace but does not restrict copy/paste (BUG)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ValidateInput(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !("1234567890".Contains(e.KeyChar.ToString())))
@@ -113,10 +151,25 @@ namespace CombatTracker5e.Dialogs
                 e.Handled = true;
             }
         }
+
+        /// <summary>
+        /// Simple button handler. Closes the form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonClick(object sender, EventArgs e)
         {
             Close();
         }
+
+        /// <summary>
+        /// Shows character creation dialog.
+        /// </summary>
+        /// <param name="characterType">Type of character to be created</param>
+        /// <param name="name">Default name for name user input</param>
+        /// <param name="hp">Default HP for HP user input</param>
+        /// <param name="maxHp">Default MaxHp for MaxHp user input</param>
+        /// <returns>Result containing character data if successful, MissingStat is true otherwise.</returns>
         public static Result Show(string characterType, string name, int hp, int maxHp)
         {
             using NewCharacterDialog form = new();
@@ -142,6 +195,10 @@ namespace CombatTracker5e.Dialogs
             }
             return retval;
         }
+
+        /// <summary>
+        /// Result class for character creation dialog, contains character data.
+        /// </summary>
         public class Result
         {
             public string Name;
