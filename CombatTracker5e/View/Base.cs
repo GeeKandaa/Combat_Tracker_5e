@@ -13,6 +13,7 @@ namespace CombatTracker5e
         readonly CombatentDisplay combatentDisplay;
         private string Mode = "Peace";
         private readonly string AutoSaveInfo;
+        private bool canSave = false;
 
         protected Button buttonAddPlayer;
         protected Button buttonAddNPC;
@@ -171,7 +172,7 @@ namespace CombatTracker5e
                 BaseController.Instance.RegisterDisplay(combatentDisplay);
                 BaseController.Instance.HandleAction(res.action, res.path);
             }
-            
+            canSave = true;
             return;
         }
         private string GetSelectedRows()
@@ -200,7 +201,7 @@ namespace CombatTracker5e
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            BaseController.Instance.HandleAction("Save", BaseController.Instance.AutoSaveFile);
+            if (canSave) BaseController.Instance.HandleAction("Save", BaseController.Instance.AutoSaveFile);
         }
     }
 }

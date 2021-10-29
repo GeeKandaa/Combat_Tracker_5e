@@ -28,37 +28,37 @@ namespace CombatTracker5e.View
             RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-            DataGridViewColumn column = new();
+            DataGridViewColumn column = new DataGridViewTextBoxColumn();
             column.DataPropertyName = "Status";
             column.Name = "Status";
             column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             Columns.Add(column);
 
-            column = new();
+            column = new DataGridViewTextBoxColumn();
             column.DataPropertyName = "Name";
             column.Name = "Character Name";
             column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             Columns.Add(column);
 
-            column = new();
+            column = new DataGridViewTextBoxColumn();
             column.DataPropertyName = "Hp";
             column.Name = "    HP    ";
             column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             Columns.Add(column);
 
-            column = new();
+            column = new DataGridViewCheckBoxColumn();
             column.DataPropertyName = "Stunned";
             column.Name = "Stunned";
             column.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
             Columns.Add(column);
 
-            column = new();
+            column = new DataGridViewCheckBoxColumn();
             column.DataPropertyName = "Concentrating";
             column.Name = "Concentrating";
             column.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
             Columns.Add(column);
 
-            column = new();
+            column = new DataGridViewTextBoxColumn();
             column.DataPropertyName = "Initiative";
             column.Name = "Initiative";
             column.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
