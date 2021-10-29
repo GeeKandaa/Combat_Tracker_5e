@@ -143,12 +143,12 @@ namespace CombatTracker5e.Dialogs
             }
             base.Dispose(disposing);
         }
-        public static new Result Show()
+        public static Result Show(string autoSaveInfo)
         {
             using UserChooseStartup form = new();
             form.Text = "Choose Party";
-            string autofile = BaseController.Instance.AutoSaveFile;
-            form.LabelPrompt.Text = $"Please choose how to start the program:\n\n The current autosaved file is located at:\n  {autofile}";
+            if (!System.IO.File.Exists(autoSaveInfo)) form.ButtonAuto.Enabled = false;
+            form.LabelPrompt.Text = $"Please choose how to start the program:\n\n The current autosaved file is located at:\n   {autoSaveInfo}";
             form.StartPosition = FormStartPosition.CenterParent;
             form.ShowDialog();
 

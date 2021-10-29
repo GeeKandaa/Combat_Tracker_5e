@@ -11,10 +11,18 @@ namespace CombatTracker5e
     public partial class Base : Form
     {
         readonly CombatentDisplay combatentDisplay;
+        private string Mode = "Peace";
+        private readonly string AutoSaveInfo;
+
+        protected Button buttonAddPlayer;
+        protected Button buttonAddNPC;
+        protected Button buttonSave;
+        protected Button buttonLoad;
+        protected Button buttonCombat;
         public Base()
         {
             InitializeComponent();
-            BaseController.Instance.EnsureAutosaveFileIsValid();
+            AutoSaveInfo = BaseController.Instance.EnsureAutosaveFileIsValid();
 
             Panel displayPanel = new();
             displayPanel.Dock = DockStyle.Left;
@@ -28,37 +36,37 @@ namespace CombatTracker5e
             displayPanel.Dock = DockStyle.Right;
             displayPanel.Width = (int)Math.Floor(Width * 0.4);
 
+            buttonAddPlayer = new();
+            buttonAddPlayer.Name = "btn_Player_New";
+            buttonAddPlayer.Text = "Add Player";
+            buttonAddPlayer.Click += HandleButtonClick;
+            displayPanel.Controls.Add(buttonAddPlayer);
+
+            buttonAddNPC = new();
+            buttonAddNPC.Name = "btn_NPC_New";
+            buttonAddNPC.Text = "Add NPC";
+            buttonAddNPC.Click += HandleButtonClick;
+            displayPanel.Controls.Add(buttonAddNPC);
+
+            buttonLoad = new();
+            buttonLoad.Name = "btn_LoadDialog_Load";
+            buttonLoad.Text = "Load Party";
+            buttonLoad.Click += HandleButtonClick;
+            displayPanel.Controls.Add(buttonLoad);
+
+            buttonSave = new();
+            buttonSave.Name = "btn_SaveDialog_Save";
+            buttonSave.Text = "Save Party";
+            buttonSave.Click += HandleButtonClick;
+            displayPanel.Controls.Add(buttonSave);
+
+            buttonCombat = new();
+            buttonCombat.Name = "btn_Combat";
+            buttonCombat.Text = "Start Combat";
+            buttonCombat.Click += HandleButtonClick;
+            displayPanel.Controls.Add(buttonCombat);
+
             Button btn = new();
-            btn.Name = "btn_Player_New";
-            btn.Text = "Add Player";
-            btn.Click += HandleButtonClick;
-            displayPanel.Controls.Add(btn);
-
-            btn = new();
-            btn.Name = "btn_NPC_New";
-            btn.Text = "Add NPC";
-            btn.Click += HandleButtonClick;
-            displayPanel.Controls.Add(btn);
-
-            btn = new();
-            btn.Name = "btn_LoadDialog_Load";
-            btn.Text = "Load Party";
-            btn.Click += HandleButtonClick;
-            displayPanel.Controls.Add(btn);
-
-            btn = new();
-            btn.Name = "btn_SaveDialog_Save";
-            btn.Text = "Save Party";
-            btn.Click += HandleButtonClick;
-            displayPanel.Controls.Add(btn);
-
-            btn = new();
-            btn.Name = "btn_Combat";
-            btn.Text = "Start Combat";
-            btn.Click += HandleButtonClick;
-            displayPanel.Controls.Add(btn);
-
-            btn = new();
             btn.Name = "btn_Char_Flee";
             btn.Text = "Flee";
             btn.Click += HandleButtonClick;
@@ -100,6 +108,32 @@ namespace CombatTracker5e
             }
         }
 
+        public void SwitchMode() 
+        {
+            if (Mode == "Peace")
+            {
+                Mode = "War";
+                buttonAddPlayer.Name = "btn_EndTurn";
+                buttonAddPlayer.Text = "End Turn";
+                buttonCombat.Name = "btn_EndCombat";
+                buttonCombat.Text = "End Combat";
+                buttonAddNPC.Visible = false;
+                buttonSave.Visible = false;
+                buttonLoad.Visible = false;
+            }else if (Mode == "War")
+            {
+                Mode = "Peace";
+                buttonAddPlayer.Name = "btn_Player_New";
+                buttonAddPlayer.Text = "Add Player";
+                buttonCombat.Name = "btn_Combat";
+                buttonCombat.Text = "Start Combat";
+                buttonAddNPC.Visible = true;
+                buttonSave.Visible = true;
+                buttonLoad.Visible = true;
+            }
+
+    
+        }
         private string[] ActionFromString(string cmd)
         {
             string[] commands = cmd.Split('_');
@@ -129,10 +163,11 @@ namespace CombatTracker5e
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            UserChooseStartup.Result res = UserChooseStartup.Show();
+            UserChooseStartup.Result res = UserChooseStartup.Show(AutoSaveInfo);
             if (res.action == null) Application.Exit();
             else
             {
+                BaseController.Instance.RegisterMain(this);
                 BaseController.Instance.RegisterDisplay(combatentDisplay);
                 BaseController.Instance.HandleAction(res.action, res.path);
             }
@@ -160,6 +195,12 @@ namespace CombatTracker5e
             Button btn = (Button)sender;
             string[] action = ActionFromString(btn.Name);
             if (action[0]!="stop") BaseController.Instance.HandleAction(action[0],action[1]);
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            BaseController.Instance.HandleAction("Save", BaseController.Instance.AutoSaveFile);
         }
     }
 }

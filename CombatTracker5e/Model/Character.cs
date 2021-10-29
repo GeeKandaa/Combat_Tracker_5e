@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CombatTracker5e.Model
 {
@@ -29,8 +30,8 @@ namespace CombatTracker5e.Model
                 return _CurrentHp.ToString() + "/" + _MaxHp.ToString();
             }
         }
-        public string Initiative { get { return _Initiative.ToString(); } }
-        private readonly int _Initiative;
+        public string Initiative{ get { return _Initiative.ToString(); } }
+        private int _Initiative;
         public bool Stunned
         {
             get { return _Stunned; }
@@ -47,11 +48,11 @@ namespace CombatTracker5e.Model
         {
             get
             {
-                if (_Status) return "Active";
+                if (IsActive) return "Active";
                 return "";
             }
         }
-        private readonly bool _Status;
+        public bool IsActive;
         public Character(string name, int currentHp, int maxHp, string type)
         {
             Name = name;
@@ -60,7 +61,7 @@ namespace CombatTracker5e.Model
             _MaxHp = maxHp;
             _Stunned = false;
             _Concentrating = false;
-            _Status = false;
+            IsActive = false;
         }
         private void ValidateHp()
         {
@@ -85,8 +86,17 @@ namespace CombatTracker5e.Model
         {
             Stunned = !Stunned;
         }
+        public void SetInitiative(int value)
+        {
+            _Initiative = value;
+        }
         public void Flee()
         {
+            if (Type == "Player")
+            {
+                DialogResult res = MessageBox.Show("You are about to remove a Player Character from the party. Are you sure?", "WARNING", MessageBoxButtons.YesNo);
+                if (res == DialogResult.No) return;
+            }
             Combatents.Instance.RemoveCharacter(this);
         }
     }

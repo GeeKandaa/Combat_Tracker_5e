@@ -18,6 +18,8 @@ namespace CombatTracker5e.Controller
         /// </summary>
         CombatentDisplay Display;
 
+        Base MainForm;
+
         /// <summary>
         /// Private constructor following singleton pattern
         /// </summary>
@@ -41,19 +43,19 @@ namespace CombatTracker5e.Controller
         /// <summary>
         /// Creates default directory for autosave reference file.
         /// </summary>
-        public void EnsureAutosaveFileIsValid()
+        public string EnsureAutosaveFileIsValid()
         {
             string path = AutoSaveDirectory + "log.auto";
             AutoSaveFile = AutoSaveDirectory + "autosave.txt";
             Directory.CreateDirectory(AutoSaveDirectory);
-            VerifyAutoSaveFile(path);
+            return VerifyAutoSaveFile(path);
         }
 
         /// <summary>
         /// Ensures log.auto contain a valid filepath to autosaved file, otherwise generates default file.
         /// </summary>
         /// <param name="path">String path to check validity</param>
-        private void VerifyAutoSaveFile(string path)
+        private string VerifyAutoSaveFile(string path)
         {
             FileStream fs = new(path, FileMode.OpenOrCreate);
 
@@ -64,11 +66,16 @@ namespace CombatTracker5e.Controller
             }
             fs.Close();
 
-            if (System.IO.File.Exists(contents)) AutoSaveFile = contents;
+            if (System.IO.File.Exists(contents))
+            {
+                AutoSaveFile = contents;
+                return AutoSaveFile;
+            }
             else
             {
                 fs = new(path, FileMode.Create);
                 FileManager.WriteBinaryFileFromString(fs, AutoSaveFile);
+                return "No autosaved file found.";
             }
         }
 
@@ -89,14 +96,36 @@ namespace CombatTracker5e.Controller
                     Combatents.Instance.SaveToFile(arg);
                     break;
                 case "New":
-                    Dialogs.NewCharacterDialog.Result res = new();
-                    while (res.MissingStat)
+                    Dialogs.NewCharacterDialog.Result CharacterRes = new();
+                    while (CharacterRes.MissingStat)
                     {
-                        res = Dialogs.NewCharacterDialog.Show(arg,res.Name,res.Hp,res.MaxHp);
-                        if (res.Cancel) return;
+                        CharacterRes = Dialogs.NewCharacterDialog.Show(arg,CharacterRes.Name,CharacterRes.Hp,CharacterRes.MaxHp);
+                        if (CharacterRes.Cancel) return;
                     }
-                    Combatents.Instance.AddCombatent(arg,res);
+                    Combatents.Instance.AddCombatent(arg,CharacterRes);
                     Display.DataSource = Combatents.Instance.GetBinding();
+                    break;
+                case "Combat":
+                    Dialogs.InitiativePicker.Result combatRes = Dialogs.InitiativePicker.Show("Pick Initiative Style");
+                    if (combatRes.Choice == "Cancel") return;
+                    else if (combatRes.Choice == "Select")
+                    {
+
+                    }
+                    else if (combatRes.Choice == "Classic")
+                    {
+                        Combatents.Instance.SetInitiatives();
+                    }
+                    MainForm.SwitchMode();
+                    Combatents.Instance.StartCombat();
+                    Display.DataSource = Combatents.Instance.GetBinding();
+                    break;
+                case "EndTurn":
+                    Combatents.Instance.NextTurn();
+                    break;
+                case "EndCombat":
+                    Combatents.Instance.EndCombat();
+                    MainForm.SwitchMode();
                     break;
                 case "Damage":
                     Combatents.Instance.DamagePlayers(arg);
@@ -128,6 +157,11 @@ namespace CombatTracker5e.Controller
         public void RegisterDisplay(CombatentDisplay display)
         {
             Display = display;
+        }
+
+        public void RegisterMain(Base mainForm)
+        {
+            MainForm = mainForm;
         }
 
         /// <summary>

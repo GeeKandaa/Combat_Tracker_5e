@@ -9,6 +9,8 @@ namespace CombatTracker5e.Model
 {
     public class Combatents
     {
+
+        int currentlyActive_i;
         /// <summary>
         /// Private constructor to follow singleton pattern.
         /// </summary>
@@ -291,6 +293,63 @@ namespace CombatTracker5e.Model
             if (type == "Player") PlayerCombatents.Add(newChar);
             else if (type == "NPC") NpcCombatents.Add(newChar);
             ComposeAllCombatents();
+        }
+
+        public void SetInitiatives()
+        {
+            foreach (Character character in AllCombatents)
+            {
+                string[] dialogText = new string[] { "Set Initiative", "What is thier initiative?", "Intiative" };
+                int ID = AllCombatents.IndexOf(character);
+                int[] value = GetValuesFromUser(new int[] { ID }, dialogText);
+                character.SetInitiative(value[ID]);
+            }
+        }
+
+        public void StartCombat()
+        {
+            int max_initiative = int.MinValue;
+            for(int i = 0; i < AllCombatents.Count; i++)
+            {
+                if (Convert.ToInt32(AllCombatents[i].Initiative) > max_initiative)
+                {
+                    currentlyActive_i = i;
+                    max_initiative = Convert.ToInt32(AllCombatents[i].Initiative);
+                }
+            }
+            if (max_initiative <= 0) return;
+            AllCombatents[currentlyActive_i].IsActive = true;
+        }
+
+        public void NextTurn()
+        {
+            AllCombatents[currentlyActive_i].IsActive = false;
+            int max_initiative = int.MinValue;
+            int previous_initiative = Convert.ToInt32(AllCombatents[currentlyActive_i].Initiative);
+            for (int i = 0; i < AllCombatents.Count; i++)
+            {
+                int test_initiative = Convert.ToInt32(AllCombatents[i].Initiative);
+                if (test_initiative > max_initiative && test_initiative < previous_initiative && test_initiative != 0)
+                {
+                    currentlyActive_i = i;
+                    max_initiative = Convert.ToInt32(AllCombatents[i].Initiative);
+                }
+            }
+            if (max_initiative == int.MinValue)
+            {
+                StartCombat();
+                return;
+            }
+            AllCombatents[currentlyActive_i].IsActive = true;
+        }
+
+        public void EndCombat()
+        {
+            AllCombatents[currentlyActive_i].IsActive = false;
+            foreach(Character character in AllCombatents)
+            {
+                character.SetInitiative(0);
+            }
         }
     }
 }
