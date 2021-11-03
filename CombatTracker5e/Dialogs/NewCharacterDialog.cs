@@ -95,8 +95,9 @@ namespace CombatTracker5e.Dialogs
 
             /////
             container = new();
+            container.Location = new Point(0,Controls[0].Height);
             container.Dock = DockStyle.Bottom;
-            container.Height = (int)(Height * 0.2);
+            container.Height = ClientSize.Height - Controls[0].Height;
             Controls.Add(container);
 
             ButtonCreate = new();
@@ -117,9 +118,8 @@ namespace CombatTracker5e.Dialogs
             ButtonCancel.DialogResult = DialogResult.Cancel;
             container.Controls.Add(ButtonCancel);
 
-            int locationSpecifier = (container.Width / ButtonCreate.Width)-2;
-            ButtonCreate.Location = new Point(container.Width * locationSpecifier + 15,container.Height/2-ButtonCreate.Height/2);
-            ButtonCancel.Location = new Point(container.Right - ButtonCreate.Width - container.Width * locationSpecifier - 15, container.Height / 2 - ButtonCreate.Height / 2);
+            ButtonCreate.Location = new Point(container.Width/4 - ButtonCreate.Width/2,container.Height/2-ButtonCreate.Height/2);
+            ButtonCancel.Location = new Point(container.Right - container.Width / 4 - ButtonCancel.Width/2, container.Height / 2 - ButtonCreate.Height / 2);
 
         }
 
