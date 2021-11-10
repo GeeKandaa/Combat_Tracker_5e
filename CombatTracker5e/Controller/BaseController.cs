@@ -19,7 +19,7 @@ namespace CombatTracker5e.Controller
         CombatentDisplay Display;
 
         Base MainForm;
-
+        public bool CanSave = false;
         /// <summary>
         /// Private constructor following singleton pattern
         /// </summary>
@@ -34,7 +34,7 @@ namespace CombatTracker5e.Controller
         /// Default path to save directory
         /// </summary>
         public readonly string AutoSaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CombatTracker5e\\";
-        
+
         /// <summary>
         /// Path to autosave file
         /// </summary>
@@ -121,9 +121,12 @@ namespace CombatTracker5e.Controller
                     Display.DataSource = Combatents.Instance.GetBinding();
                     break;
                 case "EndTurn":
+                    if (BaseController.Instance.CanSave) HandleAction("Save", AutoSaveFile);
                     Combatents.Instance.NextTurn();
                     break;
                 case "EndCombat":
+                    DialogResult EndCombatRes = MessageBox.Show("You are about to end combat! Are you sure?", "End Combat", MessageBoxButtons.YesNo);
+                    if (EndCombatRes == DialogResult.No) return;
                     Combatents.Instance.EndCombat();
                     MainForm.SwitchMode();
                     break;

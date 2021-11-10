@@ -53,16 +53,20 @@ namespace CombatTracker5e.Model
             }
         }
         public bool IsActive;
-        public Character(string name, int currentHp, int maxHp, string type)
+        public Character(string name, int currentHp, int maxHp, string type) : this(name, currentHp, maxHp, type, false, false) { }
+
+        public Character(string name, int currentHp, int maxHp, string type, bool stunned, bool concentrating)
         {
             Name = name;
             _type = type;
             _CurrentHp = currentHp;
             _MaxHp = maxHp;
-            _Stunned = false;
-            _Concentrating = false;
+            _Stunned = stunned;
+            _Concentrating = concentrating;
             IsActive = false;
         }
+
+
         private void ValidateHp()
         {
             if (_MaxHp < 0) _MaxHp = 0;
@@ -73,6 +77,13 @@ namespace CombatTracker5e.Model
         {
             _CurrentHp -= dmg;
             if (Type == "NPC" && _CurrentHp <= 0) Flee();
+            if (Concentrating)
+            {
+                DialogResult res = MessageBox.Show($"{Name} is still concentrating on a spell! Did they lose thier concentration?", "Concentration Check", MessageBoxButtons.YesNo);
+                if (res == DialogResult.No) return;
+                FlipConcentrating();
+            }
+            
         }
         public void HealDamage(int dmg)
         {
@@ -89,6 +100,21 @@ namespace CombatTracker5e.Model
         public void SetInitiative(int value)
         {
             _Initiative = value;
+        }
+
+        public bool SetActive()
+        {
+            IsActive = true;
+            if (Stunned)
+            {
+                DialogResult res = MessageBox.Show($"{Name} is stunned! Should they be free to move next turn?", "Unable to move!", MessageBoxButtons.YesNo);
+                if (res == DialogResult.No) return true;
+                FlipStun();
+                return true;
+            }
+            return false;
+            
+
         }
         public void Flee()
         {

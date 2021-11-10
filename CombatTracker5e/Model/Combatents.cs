@@ -1,4 +1,5 @@
 ﻿using CombatTracker5e.Dialogs;
+using CombatTracker5e.Controller;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,15 +44,17 @@ namespace CombatTracker5e.Model
         public void SaveToFile(string path)
         {
             using StreamWriter sw = new(path);
+            sw.WriteLine("!FILEFORMAT: Name,hp,max_hp,stunned,concentrating");
+            sw.WriteLine("!FILEFORMAT: text,numeric,numeric,true/false,true/false");
             sw.WriteLine("#PLAYER");
             foreach (Character player in PlayerCombatents)
             {
-                sw.WriteLine(player.Name + "," + player.HpCsv.ToString());
+                sw.WriteLine(player.Name + "," + player.HpCsv.ToString() + "," + player.Stunned.ToString() + "," + player.Concentrating.ToString());
             }
             sw.WriteLine("#NPC");
             foreach (Character npc in NpcCombatents)
             {
-                sw.WriteLine(npc.Name + "," + npc.HpCsv.ToString());
+                sw.WriteLine(npc.Name + "," + npc.HpCsv.ToString() + "," + npc.Stunned.ToString() + "," + npc.Concentrating.ToString());
             }
         }
 
@@ -64,45 +67,66 @@ namespace CombatTracker5e.Model
             AllCombatents.Clear();
             PlayerCombatents.Clear();
             NpcCombatents.Clear();
-            using StreamReader sr = new(path);
-            string type = "";
-            string line;
-            while ((line = sr.ReadLine()) != null)
+
+            try
             {
-                if (line[0] == '#')
+                using StreamReader sr = new(path);
+                string type = "";
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    type = line[1..];
-                    continue;
-                }
-                string[] CharacterData = line.Split(",");
-                if (type == "PLAYER")
-                {
-                    PlayerCombatents.Add
-                    (
-                        new Character
+                    if (line[0] == '!')
+                    {
+                        continue;
+                    }
+                    if (line[0] == '#')
+                    {
+                        type = line[1..];
+                        continue;
+                    }
+                    string[] CharacterData = line.Split(",");
+                    if (type == "PLAYER")
+                    {
+                        PlayerCombatents.Add
                         (
-                            CharacterData[0],
-                            Convert.ToInt32(CharacterData[1]),
-                            Convert.ToInt32(CharacterData[2]),
-                            "Player"
-                        )
-                    );
-                }
-                if (type == "NPC")
-                {
-                    NpcCombatents.Add
-                    (
-                        new Character
+                            new Character
+                            (
+                                CharacterData[0],
+                                Convert.ToInt32(CharacterData[1]),
+                                Convert.ToInt32(CharacterData[2]),
+                                "Player",
+                                Convert.ToBoolean(CharacterData[3]),
+                                Convert.ToBoolean(CharacterData[4])
+                            )
+                        );
+                    }
+                    if (type == "NPC")
+                    {
+                        NpcCombatents.Add
                         (
-                            CharacterData[0],
-                            Convert.ToInt32(CharacterData[1]),
-                            Convert.ToInt32(CharacterData[2]),
-                            "NPC"
-                        )
-                    );
+                            new Character
+                            (
+                                CharacterData[0],
+                                Convert.ToInt32(CharacterData[1]),
+                                Convert.ToInt32(CharacterData[2]),
+                                "NPC",
+                                Convert.ToBoolean(CharacterData[3]),
+                                Convert.ToBoolean(CharacterData[4])
+                            )
+                        );
+                    }
                 }
+                ComposeAllCombatents();
             }
-            ComposeAllCombatents();
+            catch(Exception ex)
+            {
+                MessageBox.Show("The file you are trying to load contains invalid or outdated data! The application will now close to prevent loss of data."+
+                    "\nYou may try to fix this by creating a new party and manually saving the party. You can then confirm the old file matches the format specified in the new file."+
+                    "\nWarning: If the file you are trying to load is an autosave make sure to create a backup before creating a new party or else it will be overwritten."+
+                    $"\n\n The current file you are trying to load can be found at:\n {path}", "Could not load file..");
+                BaseController.Instance.CanSave = false;
+                Application.Exit();
+            }
         }
 
         /// <summary>
@@ -295,17 +319,126 @@ namespace CombatTracker5e.Model
             ComposeAllCombatents();
         }
 
+        /// <summary>
+        /// Displays a dialog for each character for user to set intitiative values.
+        /// </summary>
         public void SetInitiatives()
         {
             foreach (Character character in AllCombatents)
             {
-                string[] dialogText = new string[] { "Set Initiative", "What is thier initiative?", "Intiative" };
+                string[] dialogText = new string[] { "Set Initiative", "What is thier initiative?", "Initiative" };
                 int ID = AllCombatents.IndexOf(character);
                 int[] value = GetValuesFromUser(new int[] { ID }, dialogText);
                 character.SetInitiative(value[ID]);
             }
+            VerifyAndCorrectInitiatives();
         }
 
+        private int GetDistinctCount(KeyValuePair<int,int>[] arr)
+        {
+            int previous = -1;
+            int count = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                int next = arr[i].Value;
+                if (next != 0 && (next != previous || previous == -1))
+                {
+                    count++;
+                    previous = next;
+                }
+                else if(next==0)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public void VerifyAndCorrectInitiatives()
+        {
+            KeyValuePair<int, int>[] inits = new KeyValuePair<int, int>[AllCombatents.Count];
+            for (int i = 0; i < AllCombatents.Count; i++)
+            {
+                inits[i] = new KeyValuePair<int, int>(i, Convert.ToInt32(AllCombatents[i].Initiative));
+            }
+
+            inits = inits.OrderBy(x => x.Value).ToArray();
+            int count = GetDistinctCount(inits);
+            List<KeyValuePair<int, int>> changedInits = new();
+            while (inits.Length != count)
+            {
+                List<KeyValuePair<int, int>> changingInits = new();
+                int currentMatchingInit = 0;
+                for (int i = 0; i < inits.Length; i++)
+                {
+                    if (i == inits.Length - 1) break;
+                    if (inits[i].Value == 0) continue;
+                    if (changedInits.Contains(inits[i]))
+                    {
+                        if (inits[i].Value == inits[i + 1].Value)
+                        {
+                            for(int j = i+1; j < inits.Length; j++)
+                            {
+                                inits[j] = new KeyValuePair<int, int>(inits[j].Key, inits[j].Value + 1);
+                            }
+                        }
+                        continue;
+                    }
+                    if (inits[i].Value != currentMatchingInit && currentMatchingInit != 0) break;
+                    if (inits[i].Value == inits[i + 1].Value)
+                    {
+                        if (currentMatchingInit == 0) currentMatchingInit = inits[i].Value;
+                        if (!changingInits.Contains(inits[i])) changingInits.Add(inits[i]);
+                        changingInits.Add(inits[i+1]);
+                    }
+                }
+                
+                ////////////////////////////////
+                List<int> toChange = new();
+                
+                foreach (KeyValuePair<int,int> pair in changingInits)
+                {
+                    toChange.Add(pair.Key);
+                }
+                if(toChange.Count!=0) toChange = UserChooseOrder.Show(toChange);
+                int sequentialModifier = 0;
+                foreach (int i in toChange)
+                {
+                    foreach(KeyValuePair<int,int> pair in changingInits)
+                    {
+                        if (pair.Key == i)
+                        {
+                            KeyValuePair<int, int> new_pair = new (pair.Key, pair.Value + sequentialModifier);
+
+                            int changingIndex = changingInits.IndexOf(pair);
+                            changingInits[changingIndex] = new_pair;
+
+                            int realIndex = Array.IndexOf(inits,pair);
+                            inits[realIndex] = new_pair;
+
+                            changedInits.Add(new_pair);
+
+                            sequentialModifier++;
+                            break;
+                        }
+                    }
+                }
+                ////////////////////////////////
+
+                count = GetDistinctCount(inits);
+            }
+
+            for (int i = 0; i < AllCombatents.Count; i++)
+            {
+                AllCombatents[inits[i].Key].SetInitiative(inits[i].Value);
+            }
+        }
+
+        /// <summary>
+        /// Finds the initial character in a combat round (highest initiative that isn't == 0) and 
+        /// sets thier status to active. In the case that the character is stunned, the next turn 
+        /// is automatically called. 
+        /// </summary>
         public void StartCombat()
         {
             int max_initiative = int.MinValue;
@@ -318,9 +451,15 @@ namespace CombatTracker5e.Model
                 }
             }
             if (max_initiative <= 0) return;
-            AllCombatents[currentlyActive_i].IsActive = true;
+            bool stunned = AllCombatents[currentlyActive_i].SetActive();
+            if (stunned) NextTurn();
         }
 
+        /// <summary>
+        /// Finds the next character to perform a turn (highest initiative less than the current
+        /// active character's). In the case that the character is stunned, the next turn 
+        /// is automatically called.
+        /// </summary>
         public void NextTurn()
         {
             AllCombatents[currentlyActive_i].IsActive = false;
@@ -340,9 +479,14 @@ namespace CombatTracker5e.Model
                 StartCombat();
                 return;
             }
-            AllCombatents[currentlyActive_i].IsActive = true;
+            bool stunned = AllCombatents[currentlyActive_i].SetActive();
+            if (stunned) NextTurn();
         }
 
+        /// <summary>
+        /// Removes the active characters active status and resets initiative of all 
+        /// characters to 0.
+        /// </summary>
         public void EndCombat()
         {
             AllCombatents[currentlyActive_i].IsActive = false;

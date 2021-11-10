@@ -13,7 +13,6 @@ namespace CombatTracker5e
         readonly CombatentDisplay combatentDisplay;
         private string Mode = "Peace";
         private readonly string AutoSaveInfo;
-        private bool canSave = false;
 
         protected Button buttonAddPlayer;
         protected Button buttonAddNPC;
@@ -116,7 +115,9 @@ namespace CombatTracker5e
                 Mode = "War";
                 buttonAddPlayer.Name = "btn_EndTurn";
                 buttonAddPlayer.Text = "End Turn";
+                buttonAddPlayer.BackColor = Color.PaleTurquoise;
                 buttonCombat.Name = "btn_EndCombat";
+                buttonCombat.BackColor = Color.LightSalmon;
                 buttonCombat.Text = "End Combat";
                 buttonAddNPC.Visible = false;
                 buttonSave.Visible = false;
@@ -126,7 +127,9 @@ namespace CombatTracker5e
                 Mode = "Peace";
                 buttonAddPlayer.Name = "btn_Player_New";
                 buttonAddPlayer.Text = "Add Player";
+                buttonAddPlayer.BackColor = Color.LavenderBlush;
                 buttonCombat.Name = "btn_Combat";
+                buttonCombat.BackColor = Color.LavenderBlush;
                 buttonCombat.Text = "Start Combat";
                 buttonAddNPC.Visible = true;
                 buttonSave.Visible = true;
@@ -172,7 +175,7 @@ namespace CombatTracker5e
                 BaseController.Instance.RegisterDisplay(combatentDisplay);
                 BaseController.Instance.HandleAction(res.action, res.path);
             }
-            canSave = true;
+            BaseController.Instance.CanSave = true;
             return;
         }
         private string GetSelectedRows()
@@ -201,7 +204,7 @@ namespace CombatTracker5e
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            if (canSave) BaseController.Instance.HandleAction("Save", BaseController.Instance.AutoSaveFile);
+            if (BaseController.Instance.CanSave) BaseController.Instance.HandleAction("Save", BaseController.Instance.AutoSaveFile);
         }
     }
 }
